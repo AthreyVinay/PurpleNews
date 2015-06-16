@@ -1,0 +1,15 @@
+Project Name :
+Location-based retrieval of news and context through an interactive world map which shows trending news articles/tweets.
+Project Description :
+The project provides the user a 2D geographic map that allows them to select a location on the map. On clicking on a particular region on the map, the trending news of that region is shown to the user. Along with the news, the trending tweets and the videos (if any) relating to the news are provided the user.
+We are getting the data from the local newspapers, tweets from Twitter and videos from YouTube. Along with the news the weather forecast for that region is also shown. If the trending news consists of any big sporting events, the betting odds for those events would also be provided. We were inspired from a few existing websites that provide similar search results to the user such as Newsmap, NewspaperMap etc. There were a few limitations/disadvantages in those sites such as a crowded map display or limited selection of countries.
+The standout point of our project is we wouldn’t be displaying the same news from the newspapers. We would be analyzing the news from multiple newspapers and would be presenting unique news to the users. Also, we would be providing the user to select the news from a drop down of categories such as Politics, Sports etc. Based on the selection of the user, the corresponding news is provided.
+There are a few risks that are involved – Reliability of the tweets tweeted by the user and the delay in obtaining the news, tweets, videos after the event has taken place (eg. An Earthquake).
+The target users for our product would be Researchers, Phd students, Journalists, Tourists, local residents. 
+Tools/softwares that we would using for our project would be – 
+1. Pycharm
+2. Twitter API - TweetPy
+3. YouTube API - YouTubeData
+4. Python+Django
+5. HTML, CSS (UI)
+We would be focusing on the responsiveness and time the application takes to provide the news to the user, the relevance of the news for that region and the category of news.
