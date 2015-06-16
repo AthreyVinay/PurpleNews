@@ -1,0 +1,15 @@
+Minimal Viable Product
+
+
+1. Description
+
+Our first MVP will involve four separate displays that will represent the basic navigation that the user will perform. The user will first be given the option to select a country from which to explore relevant news articles. For our MVP we chose to include two regions (UK and Ireland) that the user can select from for the sake of simplicity however we hope to split regions into separate countries at future stages of development. Once a region is selected a new screen will appear listing all the news categories associated with articles (categories include Sport, Entertainment and Politics). 
+
+The user will select a desired category and will then proceed to select a specific article relevant to that category on a new page (select from two articles). A final screen will then be displayed and will present a summer of the article along with associated trending tweets and youtube videos. The summary will be located at the top of the page followed by a scrollable list of tweets underneath it and then 1-3 youtube videos. 
+
+
+2. Deployment
+
+The design of our MVP will look to identify any basic design issues related to the layout of various features of the application including e.g. buttons, text/scroll boxes, tabs and hyperlinks. This relates to the basic requirements of application usability and will be measured by timing user responses to a set of tasks that will require them to select specific criteria (i.e. country, category, article). In addition the MVP will identify the need to include additional content in the development of our final application. 
+
+The MVP will also test certain functional requirements of the application including retrieving data from relevant API’s. As there in no underlying database serving this prototype, dummy data will be included for the countries and categories used. However the retrieval of data by the application will be tested for newspapers/articles, tweets and videos. Data retrieved from the relevant newspaper API will relate to headings and content of news articles followed by tweets and videos from both the twitter and youtube API’s. The prototype will test whether or not retrieved data matches the criteria selected by the user. This will be measured through obtaining user feedback on the perceived relevance of data retrieved as well as any observations made as to the validity of data.
