@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Twitter</title>
+</head>
+
+<body>
+<p>Enter you want to search:</p>
+<form action="/search/" method="get">
+   keyword: <input type="text" name="keyword"> <br>
+
+    <input type="submit" value="ok">
+</form>
+<p>Trend search:</p>
+<form action="/trend/" method="get">
+   Place: <input type="text" name="place"> <br>
+
+    <input type="submit" value="ok">
+</form>
+<p>News:</p>
+<form action="/getNewsByCategory/" method="get">
+   News: <input type="text" name="category"> <br>
+
+    <input type="submit" value="ok">
+</form>
+<p>Youtube:</p>
+<form action="/youtube_search/" method="get">
+   Youtube: <input type="text" name="ysearch"> <br>
+
+    <input type="submit" value="ok">
+</form>
+
+</body>
+
+</html>
