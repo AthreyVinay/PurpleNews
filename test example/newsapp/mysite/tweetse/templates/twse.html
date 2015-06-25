@@ -3,11 +3,22 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
+    <a href="/">Home</a>
     <p>Results:</p>
+    <style>
+
+p.padding {
+
+    padding-left: 40px;
+}
+</style>
 </head>
 <body>
 {% for i in tweets %}
-{{ i }}<br>
+
+<img src="{{ i.author.profile_image_url }}" height="40" width="40"><a href="https://twitter.com/{{ i.author.screen_name }}">{{ i.author.name }}</a>
+   <p class="padding"><a href="https://twitter.com/{{ i.author.screen_name }}"> @{{ i.author.screen_name }}</a></p>
+    <p class="padding">{{ i.text }}</p>
 {% endfor %}
 
 

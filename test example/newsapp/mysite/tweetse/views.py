@@ -4,6 +4,8 @@ import yweather
 import urllib.request
 from bs4 import BeautifulSoup
 import re
+import pywapi
+from .ys import youtube_search
 # Create your views here.
 from django.http import HttpResponse
 
@@ -17,12 +19,10 @@ api = tweepy.API(auth)
 
 def search(request):
     keyword=request.GET['keyword']
-    tweets=[]
-    tweet=api.search(keyword,'en')
-    for t in tweet:
-       tweets.append("@"+t.author.screen_name+":"+t.text)
 
-    return render(request,'twse.html',{'tweets':tweets})
+    tweet=api.search(keyword,'en')
+
+    return render(request,'twse.html',{'tweets':tweet})
 
 def trend(request):
 
@@ -31,11 +31,22 @@ def trend(request):
     woeid=client.fetch_woeid(place)
     trends1 = api.trends_place(woeid)
     hashtags = [x['name'] for x in trends1[0]['trends'] if x['name'].startswith('#')]
-    return render(request,'trends.html',{'hashtags':hashtags})
+    tws=[]
+    for h in hashtags:
+        tweet=api.search(h,'en')
+        for t in tweet:
+            tws.append("@"+t.author.screen_name+":"+t.text)
+    return render(request,'trends.html',{'hashtags':hashtags,'tweets':tws})
 
 
 def getNewsByCategory(request):
+    result = pywapi.get_weather_from_yahoo('EIXX0014', 'metric')
     category=request.GET['category']
+    place=request.GET['cp']
+    client = yweather.Client()
+    woeid=client.fetch_woeid(place)
+    trends1 = api.trends_place(woeid)
+    hashtags = [x['name'] for x in trends1[0]['trends'] if x['name'].startswith('#')]
     categories = ['news','opinion/','business','money','sport',
               'life','arts','puzzles']
 
@@ -75,65 +86,25 @@ def getNewsByCategory(request):
                 d1.append(d.text)
         else:
             print('not a valid category')
+
+        data=[]
+        a = 0
+        while a < len(j1):
+            data.append({'ji':j1[a],'j2':j2[a],"da":d1[a],'t1':t1[a]})
         info_dict = {'j1':j1,'j2':j2,'t1':t1,'d1':d1}
 
-        return render(request,'news.html',{'info_dict':info_dict})
+        return render(request,'news.html',{'info_dict':info_dict,'hashtages':hashtags,'weather':result,'data':data})
 
 
+def ysearch(request):
 
-from apiclient.discovery import build
-#from apiclient.errors import HttpError
-from oauth2client.tools import argparser
+    sysearch =  None
 
+    if request.method == 'GET':
+       sysearch = request.GET['youwords']
+         # print(ysearch(sysearch))
+    return render(request,'youtube.html',{'videos':youtube_search(sysearch)})
 
-# Set DEVELOPER_KEY to the API key value from the APIs & auth > Registered apps
-# tab of
-#   https://cloud.google.com/console
-# Please ensure that you have enabled the YouTube Data API for your project.
-DEVELOPER_KEY = "AIzaSyDeTeuxawKX24ZhTnJYz_yVvXMhL2CEIw0"
-YOUTUBE_API_SERVICE_NAME = "youtube"
-YOUTUBE_API_VERSION = "v3"
-def youtube_search(request):
-    to_search=request.GET['ysearch']
-   #language = lan
-    argparser.add_argument("--q", help="Search term", default=to_search)
-    #argparser.add_argument("--order",help="order",default='relevance')
-   #argparser.add_argument("--relevanceLanguage",help="relevanceLanguage",default=language)
-    argparser.add_argument("--max-results", help="Max results", default=5)
-    options = argparser.parse_args()
+def article(request):
 
-    youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
-    developerKey=DEVELOPER_KEY)
-
-  # Call the search.list method to retrieve results matching the specified
-  # query term.
-    search_response = youtube.search().list(
-    q=options.q,
-    part="id,snippet",
-    #order=options.order,
-    #relevanceLanguage=options.relevanceLanguage,
-    maxResults=options.max_results
-    ).execute()
-
-    videos = []
-    channels = []
-    playlists = []
-
-  # Add each result to the appropriate list, and then display the lists of
-  # matching videos, channels, and playlists.
-    for search_result in search_response.get("items", []):
-        if search_result["id"]["kind"] == "youtube#video":
-            videos.append("https://www.youtube.com/embed/"+"%s" % (search_result["id"]["videoId"]))
-        elif search_result["id"]["kind"] == "youtube#channel":
-            channels.append("%s (%s)" % (search_result["snippet"]["title"],
-                                   search_result["id"]["channelId"]))
-        elif search_result["id"]["kind"] == "youtube#playlist":
-            playlists.append("%s (%s)" % (search_result["snippet"]["title"],
-                                          search_result["id"]["playlistId"]))
-
-    return render(request,'youtube.html',{'videos':videos})
-  #print ("Channels:\n", "\n".join(channels), "\n")
-  #print ("Playlists:\n", "\n".join(playlists), "\n")
-
-
-
+    return render(request, 'article.html')
