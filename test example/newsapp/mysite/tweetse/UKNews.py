@@ -11,16 +11,10 @@ categories = ['news','opinion/','business','money','sport',
 urlb = 'http://www.thetimes.co.uk/tto'
 
 
+
+
 class UKarticles:
-
-
-    def getNewsByCategory(category):
-
-        """
-
-       :param category: a string , would be better in categories showned above
-       :return: a list of html with the hot news
-       """
+    def getNewsByCategory(self,category):
 
         if category in categories:
             url = urlb.__add__('/' + category + '/')
@@ -29,102 +23,85 @@ class UKarticles:
             content = urllib.request.urlopen(url).read()
             soup = BeautifulSoup(content, from_encoding='GB18030')
 
-            hotNews = soup.find_all(class_=re.compile('article-'))
 
-            return hotNews
+            articleTitle = []
+            articleURL = []
+            articleImage = []
+            articleKeyword = []
+            articleSummary = []
+            articleDate = []
 
-        else:
-            print('not a valid category')
+            if category == 'sport' or category == 'business' or category == 'money':
+                hotNews = soup.find_all(class_=re.compile('article-'))
+                print(hotNews)
+                for i in hotNews:
+                    # title
+                    j = i.find('h2')
+                    # print(j)
+                    if j is not None:
 
+                        articleTitle.append(j.text)
+                        articleURL.append(j.a['href'])
+                        print(j.text)
+                        # print(j.a['href'])
+                        urlbase = 'http://www.thetimes.co.uk'
+                        url = urlbase.__add__(str(j.a['href']))
 
+                        imageUrl = self.getimageFromURL(url)
+                        articleImage.append(imageUrl)
 
+                        # print (imageUrl)
+                        # keyword in title
+                        np_extractor = NPExtractor(j.text)
+                        result = np_extractor.extract()
+                        # print ('This article is about:',result)
+                        articleKeyword.append(result)
 
-    def getkeywordFromTitle(self,doc):
-
-        """
-
-        :param doc: a list of html with the hot news
-        :return: a dictionary like this
-                        {'title':articleTitle,'url':articleURL,'imageUrl':articleImage,'keyword':articleKeyword,
-                            'summary':articleSummary,'date':articleDate}
-                title, url ... are index words
-        """
-
-        articleTitle = []
-        articleURL = []
-        articleImage = []
-        articleKeyword = []
-        articleSummary = []
-        articleDate = []
-
-        for i in doc:
-                # title
-                j = i.find('h2')
-                if j is not None:
-                    articleTitle.append(j.text)
-                    articleURL.append(j.a['href'])
-                    # print(j.text)
-                    # print(j.a['href'])
-                    urlbase = 'http://www.thetimes.co.uk'
-                    url = urlbase.__add__(str(j.a['href']))
-
-                    imageUrl = self.getimageFromURL(url)
-                    articleImage.append(imageUrl)
-                    # print (imageUrl)
-                    # keyword in title
-                    np_extractor = NPExtractor(j.text)
-                    result = np_extractor.extract()
-                    # print ('This article is about:',result)
-                    articleKeyword.append(result)
-
-                # news contents
-                t = i.find('div', {'class', 'ellipsis'})
-                if t is not None:
-                    # print(t.text)
-                    articleSummary.append(t.text)
-                    # np_extractor = keyword_example.NPExtractor(t.text)
-                    # result = np_extractor.extract()
-                    # print ('This article is about:',result)
+                    # news contents
+                    t = i.find('div', {'class', 'ellipsis'})
+                    if t is not None:
+                        # print(t.text)
+                        articleSummary.append(t.text)
 
 
-                # news date
-                d = i.find('div', {'class', 'f-regular-update'})
-                if d is not None:
-                    # print(d.text)
-                    articleDate.append(d.text)
+                    # news date
+                    d = i.find('div', {'class', 'f-regular-update'})
+                    if d is not None:
+                        # print(d.text)
+                        articleDate.append(d.text)
 
-        article_dict = {'title':articleTitle,'url':articleURL,'imageUrl':articleImage,'keyword':articleKeyword,
+                article_dict = {'title':articleTitle,'url':articleURL,'imageUrl':articleImage,'keyword':articleKeyword,
                             'summary':articleSummary,'date':articleDate}
 
-        return article_dict
+
+                return article_dict
+
+
 
 
     def getimageFromURL(url):
-
-        """
-
-        :param url:  an article url
-        :return: this article's image url
-        """
         # print(url)
         req  = urllib.request.Request(url)
-        # try:
-        response = urllib.request.urlopen(req)
-        # except urllib.error.URLError as e:
-        #     if hasattr( e, 'reason' ):
-        #         print( 'Fail in reaching the server -> ', e.reason )
-        #         return False
-        #     elif hasattr( e, 'code' ):
-        #         print( 'The server couldn\'t fulfill the request -> ', e.code )
-        #         return False
-        #     else:
-        content1 = response.read()
-        soup1 = BeautifulSoup(content1, from_encoding='GB18030')
-        contents = soup1.find_all('div',{'class','tto-slideshow'})[0]
-        result = contents.ul.li.img['src']
-        # print(result)
-        return result
-
+        try:
+            response = urllib.request.urlopen(req)
+        except urllib.error.URLError as e:
+             if hasattr( e, 'reason' ):
+                 print( 'Fail in reaching the server -> ', e.reason )
+                 return False
+             elif hasattr( e, 'code' ):
+                 print( 'The server couldn\'t fulfill the request -> ', e.code )
+                 return False
+             else:
+                content1 = response.read()
+                soup1 = BeautifulSoup(content1, from_encoding='GB18030')
+                contents = soup1.find_all('div',{'class','tto-slideshow'})[0].find('img')
+                result = contents['src']
+                return result
+        # print(contents)
+        # if contents is not None:
+        #     result = contents.ul.li.img['src']
+        # # print(result)
+        # return result
 
 
 
@@ -242,3 +219,11 @@ class NPExtractor(object):
 #
 # if __name__ == '__main__':
 #   main()
+
+
+
+#
+# doc = UKarticles.getNewsByCategory(UKarticles,'business')
+#
+#
+# print(doc)
