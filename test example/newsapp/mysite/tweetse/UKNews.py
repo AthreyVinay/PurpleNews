@@ -8,6 +8,7 @@ from nltk.corpus import brown
 categories = ['news','opinion','business','money','sport',
               'lifestyle','arts','puzzles','politics','culture']
 
+#change another newspaper
 urlb = 'http://www.telegraph.co.uk'
 
 
