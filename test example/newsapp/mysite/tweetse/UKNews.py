@@ -5,104 +5,101 @@ import re
 import nltk
 from nltk.corpus import brown
 
-categories = ['news','opinion/','business','money','sport',
-              'life','arts','puzzles']
+categories = ['news','opinion','business','money','sport',
+              'lifestyle','arts','puzzles','politics','culture']
 
-urlb = 'http://www.thetimes.co.uk/tto'
+urlb = 'http://www.telegraph.co.uk'
 
 
 
 
 class UKarticles:
     def getNewsByCategory(self,category):
-        
+
         if category in categories:
+
+            if category == 'business':
+                category = 'finance/businesslatestnews'
+
             url = urlb.__add__('/' + category + '/')
-            # print('url is %s',url)
-            
+
             content = urllib.request.urlopen(url).read()
             soup = BeautifulSoup(content, from_encoding='GB18030')
-            
+
             article_list = []
-            
-            if category == 'sport' or category == 'business' or category == 'money':
-                hotNews = soup.find_all(class_=re.compile('article-'))
+
+            if category == 'sport' or category == 'finance/businesslatestnews' or category == 'politics' or category == 'lifestyle':
+
+                # hotNews = soup.find_all('div', {'class', 'summary'})
+                hotNews = soup.find_all(class_=re.compile('headlineImage'))
                 # print(hotNews)
+
                 for i in hotNews:
+
                     title = ''
                     summary = ''
                     articleUrl = ''
+                    imageUrl = ''
                     keywords = []
-                    
+
+
                     # title
-                    j = i.find('h2')
+                    j = i.find('h3')
                     # print(j)
                     if j is not None:
-                        
-                        title = j.text
-                        articleUrl = j.a['href']
+
+                        title = j.a.text
+                        Url = j.a['href']
+                        articleUrl = urlb.__add__(Url)
                         if articleUrl is not None:
-                            
-                            # news contents
-                            t = i.find('div', {'class', 'ellipsis'})
+
+                            # news image url
+                            # t = i.find('div', {'class', 'piccentre'})
+                            t = i.find(class_=re.compile('containerdiv'))
                             if t is not None:
-                                
-                                summary = t.text
-                                    np_extractor = NPExtractor(j.text)
-                                        result = np_extractor.extract()
-                                            keywords = result
-                                                
-                                                current_article_dict = {
-                                                    "title": title,
-                                                        "description": summary,
-                                                            "articleUrl": articleUrl,
-                                                                "keywords":result
-                                                                }
-                    article_list.append(current_article_dict)
-            
-            
-            
-            
-            
-                for i in article_list:
-                    if len(i.get("description"))<3 or i.get("description") is None \
-                        or i.get("title") is None or len(i.get("title"))<3:
-                            article_list.remove(i)
-        
-                for i in article_list:
-                    for j in article_list:
-                        if i.get("title")== j.get("title"):
-                            article_list.remove(j)
-                            
-        return article_list
+
+                               # image url
+                               imageUrl  = t.img['src']
+
+                               #  sumarry
+                               su = i.find('div', {'class', 'labelAbstract'})
+                               if su is not None:
+                                 summary = su.a.text
+                                 keywords = NPExtractor(summary)
 
 
-
-
-def getimageFromURL(url):
-    # print(url)
-    req  = urllib.request.Request(url)
-        # try:
-        response = urllib.request.urlopen(req)
-        # except urllib.error.URLError as e:
-        #      if hasattr( e, 'reason' ):
-        #          print( 'Fail in reaching the server -> ', e.reason )
-        #          return False
-        #      elif hasattr( e, 'code' ):
-        #          print( 'The server couldn\'t fulfill the request -> ', e.code )
-        #          return False
-        #      else:
-        content1 = response.read()
-        soup1 = BeautifulSoup(content1, from_encoding='GB18030')
-        contents = soup1.find_all('div',{'class','tto-slideshow'})[0].find('img')
-        result = contents['src']
-        return result
+                                 current_article_dict = {
+                                    "title": title,
+                                    "description": summary,
+                                    "articleUrl": articleUrl,
+                                    "imageUrl": imageUrl,
+                                    "keywords": keywords
+                                  }
+                                 article_list.append(current_article_dict)
 
 
 
 
 
+                # for i in article_list:
+                #         if len(i.get("description"))<3 or i.get("description") is None \
+                #                 or i.get("title") is None or len(i.get("title"))<3:
+                #             article_list.remove(i)
 
+                # for i in article_list:
+                #     for j in article_list:
+                #         if i.get("title") == j.get("title"):
+                #             article_list.remove(j)
+
+                return article_list
+
+
+
+
+# doc = UKarticles.getNewsByCategory(UKarticles,'politics')
+# for i in doc:
+#
+#          print(i)
 
 
 
@@ -119,19 +116,19 @@ def getimageFromURL(url):
 #############################################################################
 brown_train = brown.tagged_sents(categories='news')
 regexp_tagger = nltk.RegexpTagger(
-                                  [(r'^-?[0-9]+(.[0-9]+)?$', 'CD'),
-                                   (r'(-|:|;)$', ':'),
-                                   (r'\'*$', 'MD'),
-                                   (r'(The|the|A|a|An|an)$', 'AT'),
-                                   (r'.*able$', 'JJ'),
-                                   (r'^[A-Z].*$', 'NNP'),
-                                   (r'.*ness$', 'NN'),
-                                   (r'.*ly$', 'RB'),
-                                   (r'.*s$', 'NNS'),
-                                   (r'.*ing$', 'VBG'),
-                                   (r'.*ed$', 'VBD'),
-                                   (r'.*', 'NN')
-                                   ])
+    [(r'^-?[0-9]+(.[0-9]+)?$', 'CD'),
+     (r'(-|:|;)$', ':'),
+     (r'\'*$', 'MD'),
+     (r'(The|the|A|a|An|an)$', 'AT'),
+     (r'.*able$', 'JJ'),
+     (r'^[A-Z].*$', 'NNP'),
+     (r'.*ness$', 'NN'),
+     (r'.*ly$', 'RB'),
+     (r'.*s$', 'NNS'),
+     (r'.*ing$', 'VBG'),
+     (r'.*ed$', 'VBD'),
+     (r'.*', 'NN')
+])
 unigram_tagger = nltk.UnigramTagger(brown_train, backoff=regexp_tagger)
 bigram_tagger = nltk.BigramTagger(brown_train, backoff=unigram_tagger)
 #############################################################################
@@ -149,15 +146,15 @@ cfg["JJ+NN"] = "NNI"
 
 
 class NPExtractor(object):
-    
+
     def __init__(self, sentence):
         self.sentence = sentence
-    
+
     # Split the sentence into singlw words/tokens
     def tokenize_sentence(self, sentence):
         tokens = nltk.word_tokenize(sentence)
         return tokens
-    
+
     # Normalize brown corpus' tags ("NN", "NN-PL", "NNS" > "NN")
     def normalize_tags(self, tagged):
         n_tagged = []
@@ -173,13 +170,13 @@ class NPExtractor(object):
                 continue
             n_tagged.append((t[0], t[1]))
         return n_tagged
-    
+
     # Extract the main topics from the sentence
     def extract(self):
-        
+
         tokens = self.tokenize_sentence(self.sentence)
         tags = self.normalize_tags(bigram_tagger.tag(tokens))
-        
+
         merge = True
         while merge:
             merge = False
@@ -196,18 +193,30 @@ class NPExtractor(object):
                     pos = value
                     tags.insert(x, (match, pos))
                     break
-        
+
         matches = []
         for t in tags:
             if t[1] == "NNP" or t[1] == "NNI":
-                #if t[1] == "NNP" or t[1] == "NNI" or t[1] == "NN":
+            #if t[1] == "NNP" or t[1] == "NNI" or t[1] == "NN":
                 matches.append(t[0])
         return matches
 
 
-
-# doc = UKarticles.getNewsByCategory(UKarticles,'business')
-# for i in doc:
+# Main method, just run "python np_extractor.py"
+# def main():
 #
-#         print(i)
+#     sentence = "Swayy is a beautiful new dashboard for discovering and curating online content."
+#     np_extractor = NPExtractor(sentence)
+#     result = np_extractor.extract()
+#     print ('This sentence is about:',result)
+#
+# if __name__ == '__main__':
+#   main()
 
+
+
+#
+# doc = UKarticles.getNewsByCategory(UKarticles,'business')
+#
+#
+# print(doc)
