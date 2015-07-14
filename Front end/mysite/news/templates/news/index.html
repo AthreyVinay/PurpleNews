@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'news/style.css' %}" />
+
+    <!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<!-- Latest compiled JavaScript -->
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<!-- Mobile rendering + touch zooming -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Geochart-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["geochart"]});
+      google.setOnLoadCallback(drawRegionsMap);
+
+
+      function drawRegionsMap() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Country', 'Color'],
+          ['Ireland', 1],
+          ['United Kingdom', 2],
+          ['France', 3],
+          ['Spain', 4],
+          ['Germany', 5],
+          ['Italy', 6],
+        ]);
+
+
+        var options = {
+        region: '150',
+        colorAxis: {colors: ['green', 'red', 'blue', 'black', 'yellow', 'orange']},
+        showLegend: false,
+        showZoomOut: true,
+        legend: 'none',
+
+
+        };
+
+
+        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+
+
+               function post(path, params, method) {
+    method = method || "post"; // Set method to post by default if not specified.
+
+    // The rest of this code assumes you are not using a library.
+    // It can be made less wordy if you use one.
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+
+    for(var key in params) {
+        if(params.hasOwnProperty(key)) {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+            form.appendChild(hiddenField);
+
+         }
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
+          google.visualization.events.addListener(chart, 'select', function() {
+          var row = chart.getSelection()[0].row;
+          var country = (data.getValue(row,0));
+          /*var category = prompt("Please enter a category: " + "\n" +
+                  "'S' for Sports" + "\n" +
+                  "'B' for Business" + "\n" +
+                  "'E' for Entertainment" + "\n" +
+                  "'P' for Politics");*/
+
+              post("/news/articles/", {country: country});
+
+        });
+
+        chart.draw(data, options);
+
+      }
+    </script>
+</head>
+
+<body>
+
+<div class = "container" style = "border: 1px #e4e4e4 solid;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 0 6px #ccc;
+  background-color: #fff; width: 100%; height: 100%;">
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Purple News</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="jumbotron">
+  	      <h2>Country Selection</h2>
+  	      <p></p>
+    </div>
+
+    <div id="regions_div" style=" width: 100%; height: 600px; border: 1px #e4e4e4 solid; border-radius: 4px; box-shadow: 0 0 6px #ccc; background-color: #fff;"></div>
+
+</div>
+
+
+</body>
+</html>

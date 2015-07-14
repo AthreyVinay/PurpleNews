@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Articles</title>
+	{% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'news/style.css' %}" />
+
+    <!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<!-- Latest compiled JavaScript -->
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<!-- Mobile rendering + touch zooming -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+</head>
+
+
+<body>
+
+<div class = "container" style = "border: 1px #e4e4e4 solid;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 0 6px #ccc;
+  background-color: #fff;">
+
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/news/">Purple News</a>
+        </div>
+        <div>
+          <ul class="nav navbar-nav">
+              <li class="active"><a href="/news/articles/">Articles</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+            <div class="btn-group">
+		      <button type="button" class="btn btn-default btn-lg">Category</button>
+		      <button type="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown">
+		        <span class="caret"></span>
+		      </button>
+		      <ul class="dropdown-menu" role="menu">
+		        <li><a href="#">Business</a></li>
+		        <li><a href="#">Sport</a></li>
+                <li><a href="#">Entertainment</a></li>
+                <li><a href="#">Politics</a></li>
+		      </ul>
+		    </div>
+
+</br>
+</br>
+
+ <div class="jumbotron">
+  	      <h2>Articles</h2>
+  	      <p></p>
+    </div>
+
+   <form action = "/news/summary/" method = "POST"> {% csrf_token %}
+    <div style = "overflow: auto; height: 400px; border: 1px #e4e4e4 solid;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 0 6px #ccc;
+  background-color: #fff;">
+
+    {% for article in articles %}
+    <input type = 'submit' id = 'title' value = "{{ article.title }}" class = "btn btn-default btn-block btn-lg" style = "padding: 18px 28px; font-size: 22px; line-height: normal; -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px;"></input>
+    {% endfor %}
+    </div>
+    </form>
+
+   <!-- <form action = "/news/summary/" method = "POST"> {#% csrf_token %#}
+        <input type = 'text' id = 'text'></input>
+        <input type = 'submit'>
+    </form> -->
+
+
+</div>
+
+</body>
+</html>
