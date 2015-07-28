@@ -3,6 +3,8 @@ from bs4 import BeautifulSoup
 import re
 from newspaper import Article
 
+import goslate
+
 categories = ['news','opinion','business','money','sport',
               'lifestyle','arts','politics','culture']
 
@@ -90,9 +92,9 @@ def getGermanArticlese(url_list):
         a.download()
         a.parse()
 
-        title = a.title
+        title = translateToEn(a.title)
         imageUrl = a.top_image
-        summary = a.text[:1500]
+        summary = translateToEn(a.text[:1500])
 
         current_article_dict = {
                                     "title": title,
@@ -104,9 +106,15 @@ def getGermanArticlese(url_list):
 
 
 
-    print(germanArticles)
+    return germanArticles
 
 
+def translateToEn(text):
 
-# getGermanArticlese(getGermanNews('business'))
+    gs = goslate.Goslate()
+    result = gs.translate(text,'en')
+    return result
+
+
+# print (getGermanArticlese(getGermanNews('business')))
 
