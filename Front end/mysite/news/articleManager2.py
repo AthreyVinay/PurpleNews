@@ -8,7 +8,7 @@
 # Created:
 # Copyright:   	(c)sunhsiv
 # Licence:
-#-------------------------------------------------------------------------------
+# #-------------------------------------------------------------------------------
 
 import nltk
 from nltk.corpus import brown
@@ -16,23 +16,33 @@ from bs4 import BeautifulSoup
 import urllib3
 import xml.etree.ElementTree as et
 
+#from newspaper import Article
+
 # Global defines
 worldFeedUrl = "http://www.irishtimes.com/cmlink/irishtimesworldfeed-1.1321046"
 sportsFeedUrl = "http://www.irishtimes.com/cmlink/the-irish-times-sport-1.1319194"
 businessFeedUrl = "http://www.irishtimes.com/cmlink/the-irish-times-business-1.1319195"
+politicsFeedUrl = "http://www.irishtimes.com/cmlink/irish-times-politics-rss-1.1315953"
+entertainmentFeedUrl = "http://www.irishtimes.com/cmlink/the-irish-times-life-style-1.1319214"
 requestHeaders = {'User-agent': 'Mozilla/5.0'}
 
 #   Class to parse XML data from Irish Times and HTML parser
 
 #   Method: Download list of articles with a thumbnail image
     #   The method will return a list with each item having link to thumbnail image and text with artitle headline
-def get_article_list_2(category_type):
+def get_article_list(category_type):
+
+    download_link = '`'
 
     if category_type == "sports":
         download_link = sportsFeedUrl
     elif category_type == "business":
         download_link = businessFeedUrl
-    #   Get RSS feed from newspaper
+    elif category_type == "politics":
+        download_link = politicsFeedUrl
+    elif category_type == "lifestyle":
+        download_link = entertainmentFeedUrl
+
     try:
 
         http = urllib3.PoolManager()
@@ -62,8 +72,8 @@ def get_article_list_2(category_type):
         #print(article_list)
 
         first_article = article_list[0]
-        print(first_article)
-        get_irish_times_article(first_article.get('articleUrl'))
+        #print(first_article)
+        #getIrishTimesArticle(first_article.get('articleUrl'))
 
         return article_list
 
@@ -71,6 +81,14 @@ def get_article_list_2(category_type):
         print(e)
 
 def get_irish_times_article(dLink):
+
+    the_article = Article(dLink)
+
+    the_article.download()
+
+    the_article.parse()
+
+    print(the_article.top_image)
 
     artileHttp = urllib3.PoolManager()
     articleResponse = artileHttp.request('GET', dLink)
@@ -200,4 +218,6 @@ class NPExtractor(object):
                 matches.append(t[0])
         return matches
 
-#get_article_list_2("sports")
+print(get_article_list("lifestyle"))
+
+#get_irish_times_article('http://www.irishtimes.com/news/world/europe/italian-police-seize-1-6-bn-of-assets-in-mafia-bust-1.2277807')
