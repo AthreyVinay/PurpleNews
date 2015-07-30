@@ -235,7 +235,7 @@
                         {% for article in lifestyle %}
 
                             <div class="alert alert-success">
-                            <div align = 'center'><a onclick = "post_title(this)"><strong>{{ article.title }}</strong></a></div>
+                            <div align = 'center'><a onclick = "post_title('{{ article.title }}')"><strong>{{ article.title }}</strong></a></div>
                             </div>
 
                         {% endfor %}
@@ -257,7 +257,7 @@
 
     function post_title(title){
 
-    var f = document.createElement("form");
+    /*var f = document.createElement("form");
     f.setAttribute('method',"post");
     f.setAttribute('action',"/news/summary/");
 
@@ -267,7 +267,29 @@
     i.setAttribute('id', 'article_title');
 
     f.appendChild(i);
-    f.submit();
+    f.submit();*/
+
+    var params = {article_title: title}
+
+    // The rest of this code assumes you are not using a library.
+    // It can be made less wordy if you use one.
+    var form = document.createElement("form");
+    form.setAttribute("method", "post");
+    form.setAttribute("action", "/news/summary/");
+
+    for(var key in params) {
+        if(params.hasOwnProperty(key)) {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+            form.appendChild(hiddenField);
+
+         }
+    }
+
+    document.body.appendChild(form);
+    form.submit();
 
     }
 
