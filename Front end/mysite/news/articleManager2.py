@@ -82,14 +82,6 @@ def get_article_list(category_type):
 
 def get_irish_times_article(dLink):
 
-    the_article = Article(dLink)
-
-    the_article.download()
-
-    the_article.parse()
-
-    print(the_article.top_image)
-
     artileHttp = urllib3.PoolManager()
     articleResponse = artileHttp.request('GET', dLink)
     articleRdata = articleResponse.data

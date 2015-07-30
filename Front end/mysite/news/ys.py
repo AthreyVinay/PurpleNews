@@ -8,9 +8,10 @@ def ysearch(keyword):
     query_string = urllib.parse.urlencode({"search_query" : keyword})
     html_content = urllib.request.urlopen("http://www.youtube.com/results?search_sort=video_date_uploaded&" + query_string)
     search_results = re.findall(r'href=\"\/watch\?v=(.{11})', html_content.read().decode())
-    result = "http://www.youtube.com/embed/" + search_results[0]
+    result1 = search_results[0]
+    result2 = search_results[2]
     #result2 = "http://www.youtube.com/embed/" + search_results[2]
-    #result = [result1, result2]
+    result = [result1, result2]
     return result
 
 # ysearch('nba')

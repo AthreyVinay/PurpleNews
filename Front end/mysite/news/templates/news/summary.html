@@ -21,6 +21,7 @@
 </head>
 <body>
 
+
 <div class = "container" style = "border: 1px #e4e4e4 solid;
   padding: 20px;
   border-radius: 4px;
@@ -30,19 +31,21 @@
     <nav class="navbar navbar-default">
       <div class="container">
         <div class="navbar-header">
-          <a class="navbar-brand" href="/news/">Purple News</a>
+          <a class="navbar-brand" href="/news/" style = "font-size: 20px;">Purple News</a>
         </div>
         <div>
           <ul class="nav navbar-nav">
-            <li class="active"><a href="/news/articles/">Articles</a></li>
-            <li class="active"><a href="/news/summary/">Summary</a></li>
+            <li class="active"><a href="/news/articles/" style = "font-size: 18px;">Articles</a></li>
+            <li class="active"><a href="/news/summary/" style = "font-size: 18px;">Summary</a></li>
           </ul>
         </div>
       </div>
     </nav>
 
+<li>{{ article_title }}</li>
+
     <div class="page-header">
-		    <h1>Article Summary</h1>
+		    <h3>Article Summary</h3>
         </div>
     <div style = "overflow: auto; height: 350px; border: 1px #e4e4e4 solid;
   padding: 20px;
@@ -72,57 +75,25 @@ He said this was now the "most critical moment in the history of the eurozone".<
 
 
     <div class="page-header">
-		    <h1>Twitter</h1>
+		    <h3>Twitter</h3>
 		  </div>
     <div style = "overflow: auto; height: 350px; font-size: 18px; border: 1px #e4e4e4 solid;
   padding: 20px;
   border-radius: 4px;
   box-shadow: 0 0 6px #ccc;
   background-color: #fff;">
+
+        {% for tweet in tweets %}
 		<div class="alert alert-info">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-		  <strong>Tweet</strong>
+		  <strong>{{ tweet.text }}</strong>
 		</div>
-
-		<div class="alert alert-info">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-		  <strong>Tweet</strong>
-		</div>
-
-		<div class="alert alert-info">
-			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-		  <strong>Tweet</strong>
-		</div>
-
-		<div class="alert alert-info fade in">
-			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-		  <strong>Tweet</strong>
-        </div>
-
-        <div class="alert alert-info">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-		  <strong>Tweet</strong>
-		</div>
-
-        <div class="alert alert-info">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-		  <strong>Tweet</strong>
-		</div>
-
-        <div class="alert alert-info">
-			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-		  <strong>Tweet</strong>
-		</div>
-
-        <div class="alert alert-info fade in">
-			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-		  <strong>Tweet</strong>
-        </div>
+        {% endfor %}
 
     </div>
 
     <div class="page-header">
-		    <h1>Youtube</h1>
+		    <h3>Youtube</h3>
 		  </div>
 
     <div id="myCarousel" class="carousel slide" style = "border: 1px #e4e4e4 solid;
@@ -207,8 +178,6 @@ He said this was now the "most critical moment in the history of the eurozone".<
 </div>
 
 
-        <li>{{ text }}</li>
-
    <script>
 
         // 2. This code loads the IFrame Player API code asynchronously.
@@ -226,7 +195,7 @@ He said this was now the "most critical moment in the history of the eurozone".<
         player1 = new YT.Player('player1', {
           height: '390',
           width: '640',
-          videoId: '6OaoWQ3WXeY',
+          videoId: '{{ videos.0 }}',
           events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
@@ -235,7 +204,7 @@ He said this was now the "most critical moment in the history of the eurozone".<
         player2 = new YT.Player('player2', {
           height: '390',
           width: '640',
-          videoId: 'W47-zYPS2XU',
+          videoId: '{{ videos.1 }}',
           events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange

@@ -1,3 +1,8 @@
+<<<<<<< Updated upstream
+=======
+__author__ = 'Work'
+
+>>>>>>> Stashed changes
 import urllib.request
 from bs4 import BeautifulSoup
 import re
@@ -116,5 +121,9 @@ def translateToEn(text):
     return result
 
 
+<<<<<<< Updated upstream
 # print (getGermanArticlese(getGermanNews('business')))
 
+=======
+# print (getGermanArticlese(getGermanNews('business')))
+>>>>>>> Stashed changes

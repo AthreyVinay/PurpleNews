@@ -11,11 +11,8 @@ categories = ['news','opinion','business','money','sport',
 urlb = 'http://www.telegraph.co.uk'
 
 
+def getNewsByCategory(category):
 
-
-class UKarticles:
-
-    def getNewsByCategory(category):
 
         if category in categories:
 
@@ -95,5 +92,4 @@ class UKarticles:
 # doc = UKarticles.getNewsByCategory('politics')
 # for i in doc:
 #
-#          print(i)
 

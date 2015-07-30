@@ -15,72 +15,264 @@
 	<!-- Mobile rendering + touch zooming -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
+     <style>
+
+  .test {
+      position: relative;
+      height:500px;
+      overflow: auto;
+  }
+
+ .category{
+      border: 1px #e4e4e4 solid;
+      padding: 20px;
+      border-radius: 4px;
+      box-shadow: 0 0 10px #ccc;
+      background-color: #fff;
+
+ }
+
+
+
+  </style>
+
+
+    <script>
+        $(document).ready(function(){
+
+            $("#action-1").click(function(){
+                $.ajax({
+                    "type": "POST",
+                    "dataType": "json",
+                    "url": "/news/articles/",
+                    "data": { "category": "Business", "country": "Ireland"},
+                    "success": function(data){
+                        var arr = Object.keys(data.titles).map(function(k) { return data.titles[k] });
+                        document.getElementById('article_list').innerHTML = "";
+                        document.getElementById('category_heading').innerHTML = "Category: " + data.category;
+                        for (i = 0; i < arr.length; i++){
+                            var article = arr[i];
+                            document.getElementById('article_list').innerHTML += '<input type = "submit" id = "title" value = "'  + article  + '" class = "btn btn-default btn-block btn-lg" style = "padding: 18px 28px; font-size: 22px; line-height: normal; -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px;">'
+
+                        }
+                    }
+                });
+            });
+
+            $("#action-2").click(function(){
+                $.ajax({
+                    "type": "POST",
+                    "dataType": "json",
+                    "url": "/news/articles/",
+                    "data": { "category": "Sports", "country": "Ireland"},
+                    "success": function(data){
+                        var arr = Object.keys(data.titles).map(function(k) { return data.titles[k] });
+                        document.getElementById('article_list').innerHTML = "";
+                        document.getElementById('category_heading').innerHTML = "Category: " + data.category;
+                        for (i = 0; i < arr.length; i++){
+                            var article = arr[i];
+                            document.getElementById('article_list').innerHTML += '<input type = "submit" id = "title" value = "'  + article  + '" class = "btn btn-default btn-block btn-lg" style = "padding: 18px 28px; font-size: 22px; line-height: normal; -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px;">'
+
+                        }
+                    }
+                });
+            });
+
+            $("#action-3").click(function(){
+                $.ajax({
+                    "type": "POST",
+                    "dataType": "json",
+                    "url": "/news/articles/",
+                    "data": { "category": "Politics"},
+                    "success": function(data){
+                        //var titles = JSON.parse(data.titles);
+                        var arr = Object.keys(data.titles).map(function(k) { return data.titles[k] });
+                        document.getElementById('article_list').innerHTML = "";
+                        document.getElementById('category_heading').innerHTML = "Category: " + data.category;
+                        for (i = 0; i < arr.length; i++){
+                            var article = arr[i];
+                            document.getElementById('article_list').innerHTML += '<input type = "submit" id = "title" value = "'  + article  + '" class = "btn btn-default btn-block btn-lg" style = "padding: 18px 28px; font-size: 22px; line-height: normal; -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px;">'
+
+                        }
+                    }
+                });
+            });
+
+            $("#action-4").click(function(){
+                $.ajax({
+                    "type": "POST",
+                    "dataType": "json",
+                    "url": "/news/articles/",
+                    "data": { "category": "Entertainment"},
+                    "success": function(data){
+                        //var titles = JSON.parse(data.titles);
+                        var arr = Object.keys(data.titles).map(function(k) { return data.titles[k] });
+                        document.getElementById('article_list').innerHTML = "";
+                        document.getElementById('category_heading').innerHTML = "Category: " + data.category;
+                        for (i = 0; i < arr.length; i++){
+                            var article = arr[i];
+                            document.getElementById('article_list').innerHTML += '<input type = "submit" id = "title" value = "'  + article  + '" class = "btn btn-default btn-block btn-lg" style = "padding: 18px 28px; font-size: 22px; line-height: normal; -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px;">'
+
+                        }
+                    }
+                });
+            });
+        });
+
+    </script>
+
 
 </head>
 
 
 <body>
 
-<div class = "container" style = "border: 1px #e4e4e4 solid;
-  padding: 20px;
-  border-radius: 4px;
-  box-shadow: 0 0 6px #ccc;
-  background-color: #fff;">
+    <div class = "container" style = "border: 1px #e4e4e4 solid;
+      padding: 20px;
+      border-radius: 4px;
+      box-shadow: 0 0 6px #ccc;
+      background-color: #fff;">
 
-    <nav class="navbar navbar-default">
-      <div class="container">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="/news/">Purple News</a>
+        <nav class="navbar navbar-default">
+          <div class="container">
+            <div class="navbar-header">
+              <a class="navbar-brand" href="/news/" style = "font-size: 20px;">Purple News</a>
+            </div>
+            <div>
+              <ul class="nav navbar-nav">
+                  <li class="active"><a href="/news/articles/" style = "font-size: 18px;">Articles</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        </br>
+
+
+        <div class="jumbotron">
+                  <h2>Articles</h2>
+                  <!-- <p><h3>Country: {#  #}{ country }}</h3></br><h3 id = 'category_heading'>Category: All</h3></p> -->
+
         </div>
-        <div>
-          <ul class="nav navbar-nav">
-              <li class="active"><a href="/news/articles/">Articles</a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
 
-            <div class="btn-group">
-		      <button type="button" class="btn btn-default btn-lg">Category</button>
-		      <button type="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown">
-		        <span class="caret"></span>
-		      </button>
-		      <ul class="dropdown-menu" role="menu">
-		        <li><a href="#">Business</a></li>
-		        <li><a href="#">Sport</a></li>
-                <li><a href="#">Entertainment</a></li>
-                <li><a href="#">Politics</a></li>
-		      </ul>
-		    </div>
-
-</br>
-</br>
-
- <div class="jumbotron">
-  	      <h2>Articles</h2>
-  	      <p></p>
-    </div>
-
-   <form action = "/news/summary/" method = "POST"> {% csrf_token %}
-    <div style = "overflow: auto; height: 400px; border: 1px #e4e4e4 solid;
-  padding: 20px;
-  border-radius: 4px;
-  box-shadow: 0 0 6px #ccc;
-  background-color: #fff;">
-
-    {% for article in articles %}
-    <input type = 'submit' id = 'title' value = "{{ article.title }}" class = "btn btn-default btn-block btn-lg" style = "padding: 18px 28px; font-size: 22px; line-height: normal; -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px;"></input>
-    {% endfor %}
-    </div>
-    </form>
-
-   <!-- <form action = "/news/summary/" method = "POST"> {#% csrf_token %#}
-        <input type = 'text' id = 'text'></input>
-        <input type = 'submit'>
-    </form> -->
+        <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                          <span class="icon-bar"></span>
+                        </button>
+                         <a class="navbar-brand" href="#"><strong>Current category:</strong></a>
+                    </div>
+                    <div>
+                        <div class="collapse navbar-collapse" id="myNavbar">
+                            <ul class="nav navbar-nav">
+                            <li><a href="#business" style = "font-size: 16px;">Business</a></li>
+                            <li><a href="#sport" style = "font-size: 16px;">Sports</a></li>
+                            <li><a href="#politics" style = "font-size: 16px;">Politics</a></li>
+                            <li><a href="#lifestyle" style = "font-size: 16px;">Entertainment</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+          </nav>
 
 
-</div>
+
+            <div data-spy="scroll" data-target=".navbar" data-offset="12" class="test" style = "font-size: 18px;">
+
+                <div class = "category" id = 'business' >
+                    <div class="container-fluid">
+
+                        {% for article in business %}
+
+                            <div class="alert alert-info">
+                            <div align = 'center'><a onclick = "post_title(this)"><strong>{{ article.title }}</strong></a></div>
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+                </div>
+
+                </br>
+
+                <div class = "category" id ="sport">
+                    <div class="container-fluid">
+
+                        {% for article in sport %}
+
+                            <div class="alert alert-danger">
+                            <div align = 'center'><a onclick = "post_title(this)"><strong>{{ article.title }}</strong></a></div>
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+                </div>
+
+                </br>
+
+                <div class = "category" id = 'politics'>
+                    <div class="container-fluid">
+
+                        {% for article in politics %}
+
+                            <div class="alert alert-warning">
+                            <div align = 'center'><a onclick = "post_title(this)"><strong>{{ article.title }}</strong></a></div>
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+                </div>
+
+                </br>
+
+
+                <div class = "category" id ="lifestyle">
+                    <div class="container-fluid">
+
+                        {% for article in lifestyle %}
+
+                            <div class="alert alert-success">
+                            <div align = 'center'><a onclick = "post_title(this)"><strong>{{ article.title }}</strong></a></div>
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+                </div>
+
+
+            </div> <!-- end scrollspy -->
+
+
+
+    </div> <!-- end main container -->
+
+
+    <script>
+
+
+
+    function post_title(title){
+
+    var f = document.createElement("form");
+    f.setAttribute('method',"post");
+    f.setAttribute('action',"/news/summary/");
+
+    var i = document.createElement("input"); //input element, text
+    i.setAttribute('type',"hidden");
+    i.setAttribute('value', title);
+    i.setAttribute('id', 'article_title');
+
+    f.appendChild(i);
+    f.submit();
+
+    }
+
+
+</script>
 
 </body>
 </html>
