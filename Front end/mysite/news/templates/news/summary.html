@@ -42,8 +42,6 @@
       </div>
     </nav>
 
-<li>{{ article_title }}</li>
-
     <div class="page-header">
 		    <h3>Article Summary</h3>
         </div>
@@ -195,7 +193,7 @@ He said this was now the "most critical moment in the history of the eurozone".<
         player1 = new YT.Player('player1', {
           height: '390',
           width: '640',
-          videoId: '{{ videos.0 }}',
+          videoId: '{{ videos1.0 }}',
           events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
@@ -204,7 +202,7 @@ He said this was now the "most critical moment in the history of the eurozone".<
         player2 = new YT.Player('player2', {
           height: '390',
           width: '640',
-          videoId: '{{ videos.1 }}',
+          videoId: '{{ videos2.0 }}',
           events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
