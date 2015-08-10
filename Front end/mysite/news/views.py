@@ -34,41 +34,27 @@ class articles(View):
         return render(request, 'news/articles.html')
 
     def post(self, request):
-        if(self.request.is_ajax()):
-            return self.ajax(request)
-        else:
-            country = request.POST['country']
 
-            if country == "United Kingdom":
-                business = getNewsByCategory("business")[:5]
-                sport = getNewsByCategory("sport")[:5]
-                politics = getNewsByCategory("politics")[:5]
-                lifestyle = getNewsByCategory("lifestyle")[:5]
+        country = request.POST['country']
 
-                context = {"country": country, "business": business, "sport" : sport, "politics": politics, "lifestyle" : lifestyle}
+        if country == "United Kingdom":
+            business = getNewsByCategory("business")[:5]
+            sport = getNewsByCategory("sport")[:5]
+            politics = getNewsByCategory("politics")[:5]
+            lifestyle = getNewsByCategory("lifestyle")[:5]
 
-            elif country == "Ireland":
-                business = get_article_list("business")[:5]
-                sport = get_article_list("sports")[:5]
-                politics = get_article_list("politics")[:5]
-                lifestyle = get_article_list("lifestyle")[:5]
+            context = {"country": country, "business": business, "sport" : sport, "politics": politics, "lifestyle" : lifestyle}
 
-                context = {"country": country, "business": business, "sport": sport, "politics": politics, "lifestyle": lifestyle}
+        elif country == "Ireland":
+            business = get_article_list("business")[:5]
+            sport = get_article_list("sports")[:5]
+            politics = get_article_list("politics")[:5]
+            lifestyle = get_article_list("lifestyle")[:5]
 
-            return render(request, "news/articles.html",context)
+            context = {"country": country, "business": business, "sport": sport, "politics": politics, "lifestyle": lifestyle}
 
-    def ajax(self, request):
-        category = request.POST.get('category', '')
-        country = request.POST.get('country', '')
-        articles = Article.objects.filter(country=country, category=category)
-        titles = []
-        for article in articles:
-            titles.append(article.title)
+        return render(request, "news/articles.html",context)
 
-        json_articles = serializers.serialize("json", articles)
-
-        context = {"success": True, "category" : category,"country" :country, "titles" : titles}
-        return HttpResponse(json.dumps(context), content_type='application/json')
 
 class summary(View):
 

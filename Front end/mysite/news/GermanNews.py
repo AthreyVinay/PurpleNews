@@ -119,9 +119,7 @@ def translateToEn(text):
     return result
 
 
-<<<<<<< Updated upstream
 # print (getGermanArticlese(getGermanNews('business')))
 
-=======
 # print (getGermanArticlese(getGermanNews('business')))
->>>>>>> Stashed changes
+
