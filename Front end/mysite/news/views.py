@@ -10,6 +10,7 @@ from news.UKNews import getNewsByCategory
 from news.articleManager2 import get_article_list
 from news.weather_forecast import weather_forecast
 from news.ys import ysearch
+from news.GermanNews import getGermanNews
 
 
 # Create your views here.
@@ -42,6 +43,10 @@ class articles(View):
             politics = getNewsByCategory("politics")[:5]
             lifestyle = getNewsByCategory("lifestyle")[:5]
 
+            for b_article in business:
+                new_entry = Article(title = b_article.title, summary = b_article.description, country = country, category = "business")
+                new_entry.save()
+
             context = {"country": country, "business": business, "sport" : sport, "politics": politics, "lifestyle" : lifestyle}
 
         elif country == "Ireland":
@@ -49,6 +54,14 @@ class articles(View):
             sport = get_article_list("sports")[:5]
             politics = get_article_list("politics")[:5]
             lifestyle = get_article_list("lifestyle")[:5]
+
+            context = {"country": country, "business": business, "sport": sport, "politics": politics, "lifestyle": lifestyle}
+
+        elif country == "Germany":
+            business = getGermanNews("business")[:5]
+            sport = getGermanNews("sport")[:5]
+            politics = getGermanNews("politics")[:5]
+            lifestyle = getGermanNews("lifestyle")[:5]
 
             context = {"country": country, "business": business, "sport": sport, "politics": politics, "lifestyle": lifestyle}
 
