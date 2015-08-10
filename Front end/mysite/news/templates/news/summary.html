@@ -132,37 +132,6 @@ He said this was now the "most critical moment in the history of the eurozone".<
 		</div>
     </div>
 
-
-    <div class="item">
-       <div>
-           <div align = 'center' class="embed-responsive embed-responsive-16by9">
-               <div id="player3"></div>
-              <!-- <iframe class="embed-responsive-item" width="560" height="315" src="https://www.youtube.com/embed/W47-zYPS2XU?autoplay=1" frameborder="0" allowfullscreen></iframe> -->
-           </div>
-		</div>
-    </div>
-
-
-    <div class="item">
-       <div>
-           <div align = 'center' class="embed-responsive embed-responsive-16by9">
-               <div id="player4"></div>
-              <!-- <iframe class="embed-responsive-item" width="420" height="315" src="https://www.youtube.com/embed/3Kqo8HtyFIQ?autoplay=1" frameborder="0" allowfullscreen></iframe> -->
-           </div>
-		</div>
-    </div>
-
-
-    <div class="item">
-       <div>
-           <div align = 'center' class="embed-responsive embed-responsive-16by9">
-               <div id="player5"></div>
-              <!-- <iframe class="embed-responsive-item" width="560" height="315" src="https://www.youtube.com/embed/ngZKOzxcHXc?autoplay=1" frameborder="0" allowfullscreen></iframe> -->
-           </div>
-		</div>
-    </div>
-
-
   <!-- Left and right controls -->
   <a class="left carousel-control" href="#myCarousel" role="button">
     <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
@@ -208,6 +177,7 @@ He said this was now the "most critical moment in the history of the eurozone".<
             'onStateChange': onPlayerStateChange
           }
         });
+
         player3 = new YT.Player('player3', {
           height: '390',
           width: '640',
@@ -235,7 +205,10 @@ He said this was now the "most critical moment in the history of the eurozone".<
             'onStateChange': onPlayerStateChange
           }
         });
+
+
       }
+
 
       // 4. The API will call this function when the video player is ready.
       function onPlayerReady(event) {
