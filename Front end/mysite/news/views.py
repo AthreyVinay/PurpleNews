@@ -34,7 +34,6 @@ class articles(View):
         return render(request, 'news/articles.html')
 
     def post(self, request):
-
         country = request.POST['country']
 
         if country == "United Kingdom":
