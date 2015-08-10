@@ -1,8 +1,6 @@
-<<<<<<< Updated upstream
-=======
+
 __author__ = 'Work'
 
->>>>>>> Stashed changes
 import urllib.request
 from bs4 import BeautifulSoup
 import re

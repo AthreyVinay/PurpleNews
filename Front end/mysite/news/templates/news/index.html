@@ -91,6 +91,7 @@
             confirmButtonText: "Articles",
             cancelButtonText: "Weather",
             cancelButtonColor: "#0000FF",
+            showLoaderOnConfirm: true,
             closeOnConfirm: false,
             closeOnCancel: false },
                 function(isConfirm){
@@ -106,6 +107,8 @@
         chart.draw(data, options);
 
       }
+
+
 
 
         function weatherForcasts(country){
@@ -128,8 +131,6 @@
             }
         }
 
-
-
     </script>
 </head>
 
@@ -147,12 +148,23 @@
     <nav class="navbar navbar-default">
       <div class="container">
         <div class="navbar-header">
-          <a class="navbar-brand" href="#" style = "font-size: 20px;">Purple News</a>
+          <a class="navbar-brand" href="#" style = "font-size: 20px; font-family: 'lucida grande', cursive;">Purple News</a>
+            <!-- <a class="navbar-brand" href="https://docs.google.com/a/ucdconnect.ie/forms/d/1qwiiYGeclJbiH9dHHw51LgeCIxRf1dG9LDwYTJfsWI8/viewform" style = "font-size: 15px; font-family: 'lucida grande', cursive; float: right;">Feedback Form</a> -->
         </div>
       </div>
     </nav>
 
-    <div class="jumbotron">
+    <script>
+        swal({
+            title: "Instructions",
+            text: "<strong> Please select a country to view associated articles or the weather </strong>",
+            confirmButtonText: "OK",
+            html:true
+            });
+
+    </script>
+
+    <div class="jumbotron" style = "font-family: 'Lucida Grande', cursive">
   	      <h2>Country Selection</h2>
   	      <p></p>
     </div>

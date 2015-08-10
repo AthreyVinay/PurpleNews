@@ -73,14 +73,17 @@ class articles(View):
 class summary(View):
 
     def get(self, request):
-        tweets = search("Biopharmaceutical services firm Parexel to create 130 jobs")
-        videos = ysearch("Greek crisis")
-        context = {"tweets": tweets,"videos" : videos}
+        tweets = search("Greek crisis")
+        keywords = ["Greek crisis", "Sky news", "Greek crisis", "CNN"]
+        videos = ysearch(keywords)
+        article_title = "Greek crisis"
+        context = {"tweets": tweets, "videos1" : videos[0], "videos2": videos[1], "article_title": article_title}
         return render(request, 'news/summary.html', context)
 
     def post(self, request):
-        tweets = search("Biopharmaceutical services firm Parexel to create 130 jobs")
-        videos = ysearch("Greek crisis")
-        #article_title = request.POST['article_title']
-        context = {"tweets": tweets,"videos" : videos}
+        tweets = search("Greek crisis")
+        keywords = ["Greek crisis", "Sky news", "Greek crisis", "CNN"]
+        videos = ysearch(keywords)
+        article_title = request.POST.get('article_title','')
+        context = {"tweets": tweets, "videos1" : videos[0], "videos2": videos[1], "article_title": article_title}
         return render(request, 'news/summary.html', context)
