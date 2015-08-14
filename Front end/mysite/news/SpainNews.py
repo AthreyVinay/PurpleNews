@@ -1,43 +1,3 @@
-
-
-#translate to english using google translation api
-# import goslate
-#
-# def translateToEn(text):
-#
-#     gs = goslate.Goslate()
-#     result = gs.translate(text,'en')
-#     return result
-#     print(result)
-#
-#
-# translateToEn('Cuando Luis Suárez fichó por el Barcelona el verano pasado tuvo que esperar en boxes hasta finales de octubre.')
-
-
-# from newspaper import Article
-#
-# def example():
-#     url = 'http://deportes.elpais.com/deportes/2015/07/21/actualidad/1437504468_097396.html'
-#     a = Article(url,language = 'de')
-#
-#     a.download()
-#     a.parse()
-#
-#     print(a.text[:1500])
-#
-#     print(a.title)
-#     print(a.top_image)
-#
-# example()
-
-# import newspaper
-#
-# de_paper = newspaper.build('http://www.bild.de/politik/startseite/politik/home-16804552.bild.html')
-#
-# for article in de_paper.articles:
-#     print(article.url)
-
-
 import urllib.request
 from bs4 import BeautifulSoup
 import re
@@ -121,6 +81,7 @@ def getSpainArticlese(url_list):
     summary = ''
     articleUrl = ''
     imageUrl = ''
+    keywords = []
 
     for i in url_list:
         url = i
@@ -136,11 +97,15 @@ def getSpainArticlese(url_list):
         imageUrl = a.top_image
         summary = translateToEn(a.text[:1500])
 
+        np_extractor = NPExtractor(title)
+        keywords = np_extractor.extract()
+
         current_article_dict = {
                                     "title": title,
-                                    # "description": summary,
+                                    "description": summary,
                                     "articleUrl": url,
-                                    "imageUrl": imageUrl
+                                    "imageUrl": imageUrl,
+                                    "keywords": keywords
                                   }
         spainArticles.append(current_article_dict)
 
@@ -156,6 +121,105 @@ def translateToEn(text):
     return result
 
 
+import nltk
+from nltk.corpus import brown
+
+# This is a fast and simple noun phrase extractor (based on NLTK)
+# Feel free to use it, just keep a link back to this post
+# http://thetokenizer.com/2013/05/09/efficient-way-to-extract-the-main-topics-of-a-sentence/
+# http://www.sharejs.com/codes/
+# Create by Shlomi Babluki
+# May, 2013
+
+
+# This is our fast Part of Speech tagger
+#############################################################################
+brown_train = brown.tagged_sents(categories='news')
+regexp_tagger = nltk.RegexpTagger(
+    [(r'^-?[0-9]+(.[0-9]+)?$', 'CD'),
+     (r'(-|:|;)$', ':'),
+     (r'\'*$', 'MD'),
+     (r'(The|the|A|a|An|an)$', 'AT'),
+     (r'.*able$', 'JJ'),
+     (r'^[A-Z].*$', 'NNP'),
+     (r'.*ness$', 'NN'),
+     (r'.*ly$', 'RB'),
+     (r'.*s$', 'NNS'),
+     (r'.*ing$', 'VBG'),
+     (r'.*ed$', 'VBD'),
+     (r'.*', 'NN')
+])
+unigram_tagger = nltk.UnigramTagger(brown_train, backoff=regexp_tagger)
+bigram_tagger = nltk.BigramTagger(brown_train, backoff=unigram_tagger)
+#############################################################################
+
+
+# This is our semi-CFG; Extend it according to your own needs
+#############################################################################
+cfg = {}
+cfg["NNP+NNP"] = "NNP"
+cfg["NN+NN"] = "NNI"
+cfg["NNI+NN"] = "NNI"
+cfg["JJ+JJ"] = "JJ"
+cfg["JJ+NN"] = "NNI"
+#############################################################################
+
+
+class NPExtractor(object):
+
+    def __init__(self, sentence):
+        self.sentence = sentence
+
+    # Split the sentence into singlw words/tokens
+    def tokenize_sentence(self, sentence):
+        tokens = nltk.word_tokenize(sentence)
+        return tokens
+
+    # Normalize brown corpus' tags ("NN", "NN-PL", "NNS" > "NN")
+    def normalize_tags(self, tagged):
+        n_tagged = []
+        for t in tagged:
+            if t[1] == "NP-TL" or t[1] == "NP":
+                n_tagged.append((t[0], "NNP"))
+                continue
+            if t[1].endswith("-TL"):
+                n_tagged.append((t[0], t[1][:-3]))
+                continue
+            if t[1].endswith("S"):
+                n_tagged.append((t[0], t[1][:-1]))
+                continue
+            n_tagged.append((t[0], t[1]))
+        return n_tagged
+
+    # Extract the main topics from the sentence
+    def extract(self):
+
+        tokens = self.tokenize_sentence(self.sentence)
+        tags = self.normalize_tags(bigram_tagger.tag(tokens))
+
+        merge = True
+        while merge:
+            merge = False
+            for x in range(0, len(tags) - 1):
+                t1 = tags[x]
+                t2 = tags[x + 1]
+                key = "%s+%s" % (t1[1], t2[1])
+                value = cfg.get(key, '')
+                if value:
+                    merge = True
+                    tags.pop(x)
+                    tags.pop(x)
+                    match = "%s %s" % (t1[0], t2[0])
+                    pos = value
+                    tags.insert(x, (match, pos))
+                    break
+
+        matches = []
+        for t in tags:
+            if t[1] == "NNP" or t[1] == "NNI":
+            #if t[1] == "NNP" or t[1] == "NNI" or t[1] == "NN":
+                matches.append(t[0])
+        return matches
+
+
 # print (getSpainArticlese(getSpainNews('business')))
-
-
