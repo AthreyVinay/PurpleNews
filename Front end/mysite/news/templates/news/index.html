@@ -1,179 +1,287 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Home</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Purple News - News goes Social !</title>
+
     {% load staticfiles %}
-    <link rel="stylesheet" type="text/css" href="{% static 'news/style.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'news/style.css' %}"/>
+
+    <!-- Bootstrap Core CSS -->
+    <link type="text/css" href="{% static 'news/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link type="text/css" href="{% static 'news/css/business-casual.css' %}" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'news/sweetalert-master/dist/sweetalert.css' %}">
+
+    <!-- Fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"
+          rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic"
+          rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'news/style.css' %}"/>
     <script src="{% static 'news/sweetalert-master/dist/sweetalert.min.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'news/sweetalert-master/dist/sweetalert.css' %}">
 
-    <!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-	<!-- jQuery library -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<!-- Latest compiled JavaScript -->
-	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-	<!-- Mobile rendering + touch zooming -->
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
     <!-- Geochart-->
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
-      google.load("visualization", "1", {packages:["geochart"]});
-      google.setOnLoadCallback(drawRegionsMap);
+        google.load("visualization", "1", {packages: ["geochart"]});
+        google.setOnLoadCallback(drawRegionsMap);
 
 
-      function drawRegionsMap() {
+        function drawRegionsMap() {
 
-        var data = google.visualization.arrayToDataTable([
-          ['Country', 'Color'],
-          ['Ireland', 1],
-          ['United Kingdom', 2],
-          ['France', 3],
-          ['Spain', 4],
-          ['Germany', 5],
-          ['Italy', 6]
-        ]);
-
-
-        var options = {
-        region: '150',
-        colorAxis: {colors: ['green', 'red', 'blue', 'black', 'yellow', 'orange']},
-        showLegend: false,
-        showZoomOut: true,
-        legend: 'none'
+            var data = google.visualization.arrayToDataTable([
+                ['Country', 'Color'],
+                ['Ireland', 1],
+                ['United Kingdom', 2],
+                ['France', 3],
+                ['Spain', 4],
+                ['Germany', 5],
+                ['Italy', 6]
+            ]);
 
 
-        };
+            var options = {
+                region: '150',
+                colorAxis: {colors: ['green', 'red', 'blue', 'black', 'yellow', 'orange']},
+                showLegend: false,
+                showZoomOut: true,
+                legend: 'none'
 
 
-        var chart = new google.visualization.GeoChart(document.getElementById('regions'));
+            };
 
 
-               function post(path, params, method) {
-    method = method || "post"; // Set method to post by default if not specified.
-
-    // The rest of this code assumes you are not using a library.
-    // It can be made less wordy if you use one.
-    var form = document.createElement("form");
-    form.setAttribute("method", method);
-    form.setAttribute("action", path);
-
-    for(var key in params) {
-        if(params.hasOwnProperty(key)) {
-            var hiddenField = document.createElement("input");
-            hiddenField.setAttribute("type", "hidden");
-            hiddenField.setAttribute("name", key);
-            hiddenField.setAttribute("value", params[key]);
-            form.appendChild(hiddenField);
-
-         }
-    }
-
-    document.body.appendChild(form);
-    form.submit();
-}
-
-          google.visualization.events.addListener(chart, 'select', function() {
-          var row = chart.getSelection()[0].row;
-          var country = (data.getValue(row,0));
-          /*var category = prompt("Please enter a category: " + "\n" +
-                  "'S' for Sports" + "\n" +
-                  "'B' for Business" + "\n" +
-                  "'E' for Entertainment" + "\n" +
-                  "'P' for Politics");*/
+            var chart = new google.visualization.GeoChart(document.getElementById('regions'));
 
 
-             swal({   title: "What would you like to view?",
-            showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText: "Articles",
-            cancelButtonText: "Weather",
-            cancelButtonColor: "#0000FF",
-            showLoaderOnConfirm: true,
-            closeOnConfirm: false,
-            closeOnCancel: false },
-                function(isConfirm){
-                    if (isConfirm) {
-                        post("/news/articles/", {country: country});
-                    } else {
-                        weatherForcasts(country);
+            function post(path, params, method) {
+                method = method || "post"; // Set method to post by default if not specified.
+
+                // The rest of this code assumes you are not using a library.
+                // It can be made less wordy if you use one.
+                var form = document.createElement("form");
+                form.setAttribute("method", method);
+                form.setAttribute("action", path);
+
+                for (var key in params) {
+                    if (params.hasOwnProperty(key)) {
+                        var hiddenField = document.createElement("input");
+                        hiddenField.setAttribute("type", "hidden");
+                        hiddenField.setAttribute("name", key);
+                        hiddenField.setAttribute("value", params[key]);
+                        form.appendChild(hiddenField);
+
                     }
+                }
 
-                });
-        });
+                document.body.appendChild(form);
+                form.submit();
+            }
 
-        chart.draw(data, options);
+            google.visualization.events.addListener(chart, 'select', function () {
+                var row = chart.getSelection()[0].row;
+                var country = (data.getValue(row, 0));
+                /*var category = prompt("Please enter a category: " + "\n" +
+                 "'S' for Sports" + "\n" +
+                 "'B' for Business" + "\n" +
+                 "'E' for Entertainment" + "\n" +
+                 "'P' for Politics");*/
 
-      }
+
+                var countrySelection = swal({
+                            title: "What would you like to view?",
+                            showCancelButton: true,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: "Articles",
+                            cancelButtonText: "Weather",
+                            cancelButtonColor: "#0000FF",
+                            showLoaderOnConfirm: true,
+                            closeOnConfirm: true,
+                            closeOnCancel: false
+                        },
+                        function (isConfirm) {
+                            if (isConfirm) {
+                                post("/news/articles/", {country: country});
+                            } else {
+                                weatherForcasts(country);
+                            }
+                        }
+                );
+            });
+
+            chart.draw(data, options);
+
+        }
 
 
-
-
-        function weatherForcasts(country){
-            if(country == "Ireland"){
+        function weatherForcasts(country) {
+            if (country == "Ireland") {
                 swal({
                     title: "Weather forecast for Ireland",
-                    text: "<strong> Summary: {{ Ireland_weather.current_summary }} </strong> </br>"  +
-                           "<strong> Current Temperate: {{ Ireland_weather.current_temp }} </strong> </br>" +
-                            "<strong> Additonal info: {{ Ireland_weather.hourly }} </strong>",
-                    html:true
+                    text: "<strong> Summary: {{ Ireland_weather.current_summary }} </strong> </br>" +
+                    "<strong> Current Temperate: {{ Ireland_weather.current_temp }} </strong> </br>" +
+                    "<strong> Additonal info: {{ Ireland_weather.hourly }} </strong>",
+                    html: true
                 });
-            }else if(country == "United Kingdom"){
+            } else if (country == "United Kingdom") {
                 swal({
                     title: "Weather forecast for United Kingdom",
-                    text: "<strong> Summary: {{ UK_weather.current_summary }} </strong> </br>"  +
-                           "<strong> Current Temperate: {{ UK_weather.current_temp }} </strong> </br>" +
-                            "<strong> Additonal info: {{ UK_weather.hourly }} </strong>",
-                    html:true
+                    text: "<strong> Summary: {{ UK_weather.current_summary }} </strong> </br>" +
+                    "<strong> Current Temperate: {{ UK_weather.current_temp }} </strong> </br>" +
+                    "<strong> Additonal info: {{ UK_weather.hourly }} </strong>",
+                    html: true
+                });
+            } else if (country == "Spain") {
+                swal({
+                    title: "Weather forecast for Spain",
+                    text: "<strong> Summary: {{ Spain_weather.current_summary }} </strong> </br>" +
+                    "<strong> Current Temperate: {{ Spain_weather.current_temp }} </strong> </br>" +
+                    "<strong> Additonal info: {{ Spain_weather.hourly }} </strong>",
+                    html: true
+                });
+            } else if (country == "Germany") {
+                swal({
+                    title: "Weather forecast for Germany",
+                    text: "<strong> Summary: {{ Germany_weather.current_summary }} </strong> </br>" +
+                    "<strong> Current Temperate: {{ Germany_weather.current_temp }} </strong> </br>" +
+                    "<strong> Additonal info: {{ Germany_weather.hourly }} </strong>",
+                    html: true
+                });
+            } else if (country == "France") {
+                swal({
+                    title: "Weather forecast for France",
+                    text: "<strong> Summary: {{ France_weather.current_summary }} </strong> </br>" +
+                    "<strong> Current Temperate: {{ France_weather.current_temp }} </strong> </br>" +
+                    "<strong> Additonal info: {{ France_weather.hourly }} </strong>",
+                    html: true
+                });
+            } else if (country == "Italy") {
+                swal({
+                    title: "Weather forecast for Italy",
+                    text: "<strong> Summary: {{ Italy_weather.current_summary }} </strong> </br>" +
+                    "<strong> Current Temperate: {{ Italy_weather.current_temp }} </strong> </br>" +
+                    "<strong> Additonal info: {{ Italy_weather.hourly }} </strong>",
+                    html: true
                 });
             }
         }
 
     </script>
+
 </head>
 
 <body>
 
+<div class="brand">Purple News</div>
+<div class="address-bar">News goes Social !</div>
 
-
-
-<div class = "container" style = "border: 1px #e4e4e4 solid;
-  padding: 20px;
-  border-radius: 4px;
-  box-shadow: 0 0 6px #ccc;
-  background-color: #fff;">
-
-    <nav class="navbar navbar-default">
-      <div class="container">
+<!-- Navigation -->
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-          <a class="navbar-brand" href="#" style = "font-size: 20px; font-family: 'lucida grande', cursive;">Purple News</a>
-            <!-- <a class="navbar-brand" href="https://docs.google.com/a/ucdconnect.ie/forms/d/1qwiiYGeclJbiH9dHHw51LgeCIxRf1dG9LDwYTJfsWI8/viewform" style = "font-size: 15px; font-family: 'lucida grande', cursive; float: right;">Feedback Form</a> -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
+            <a class="navbar-brand" href="index.html">Purple News</a>
         </div>
-      </div>
-    </nav>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="/news/">Home</a>
+                </li>
+                <li>
+                    <a href="/news/about">About</a>
+                </li>
+                <li>
+                    <a href="/news/contact">Contact</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
 
-    <script>
-        swal({
-            title: "Instructions",
-            text: "<strong> Please select a country to view associated articles or the weather </strong>",
-            confirmButtonText: "OK",
-            html:true
-            });
+<div class="container">
 
-    </script>
+    <div class="row">
+        <div class="box">
+            <hr>
+            <h2 class="intro-text text-center">Your
+                <strong>start point</strong>
+            </h2>
+            <hr>
 
-    <div class="jumbotron" style = "font-family: 'Lucida Grande', cursive">
-  	      <h2>Country Selection</h2>
-  	      <p></p>
+            <!-- Add Google charts to page -->
+            <div id="regions" style="border-radius: 25px; height: auto;"></div>
+        </div>
     </div>
 
-    <div id="regions"></div>
-
+    <div class="row">
+        <div class="box">
+            <div class="col-lg-12">
+                <hr>
+                <h2 class="intro-text text-center">Get more than
+                    <strong>just News</strong>
+                </h2>
+                <hr>
+                <img class="img-responsive img-border img-left" src="{% static 'news/img/newspaper-stack.jpg' %}"
+                     alt="">
+                <hr class="visible-xs">
+                <p>A location based application that retrieves and displays relevant social media posts associated with
+                    news articles from the location selected by user</p>
+            </div>
+        </div>
+    </div>
 
 </div>
+<!-- /.container -->
 
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <p>Copyright &copy; NLPracticum - Purple Team 2015</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="{% static 'news/js/jquery.js' %}"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="{% static 'news/js/bootstrap.min.js' %}"></script>
 
 </body>
+
 </html>

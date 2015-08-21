@@ -1,407 +1,492 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Summary</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Purple News</title>
+
     {% load staticfiles %}
-    <link rel="stylesheet" type="text/css" href="{% static 'news/style.css' %}" />
 
-    <!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-	<!-- jQuery library -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<!-- Latest compiled JavaScript -->
-	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-	<!-- Mobile rendering + touch zooming -->
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{% static 'news/style.css' %}"/>
 
+    <!-- Bootstrap Core CSS -->
+    <link type="text/css" href="{% static 'news/css/bootstrap.min.css' %}" rel="stylesheet">
 
+    <!-- Custom CSS -->
+    <link type="text/css" href="{% static 'news/css/business-casual.css' %}" rel="stylesheet">
 
+    <link rel="stylesheet" type="text/css" href="{% static 'news/sweetalert-master/dist/sweetalert.css' %}">
 
-</head>
-<body>
+    <!-- Fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"
+          rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic"
+          rel="stylesheet" type="text/css">
 
+    <link rel="stylesheet" type="text/css" href="{% static 'news/style.css' %}"/>
+    <script src="{% static 'news/sweetalert-master/dist/sweetalert.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'news/sweetalert-master/dist/sweetalert.css' %}">
 
-<div class = "container" style = "border: 1px #e4e4e4 solid;
-  padding: 20px;
-  border-radius: 4px;
-  box-shadow: 0 0 6px #ccc;
-  background-color: #fff;">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
-    <nav class="navbar navbar-default">
-      <div class="container">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="/news/" style = "font-size: 20px;">Purple News</a>
-        </div>
-        <div>
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="/news/articles/" style = "font-size: 18px;">Articles</a></li>
-            <li class="active"><a href="/news/summary/" style = "font-size: 18px;">Summary</a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-
-    <div class="page-header">
-		    <h3>Article Summary</h3>
-        </div>
-    <div style = "overflow: auto; height: 350px; border: 1px #e4e4e4 solid;
-  padding: 20px;
-  border-radius: 4px;
-  box-shadow: 0 0 6px #ccc;
-  background-color: #fff;">
-        <div class="text-info well" style = "font-size: 18px;">
-		  <strong>The eurozone has given Greece until Thursday to present new proposals to secure a deal with creditors, and has called a full EU summit for Sunday.
-The eurozone had expected Greece to submit fresh plans on Tuesday after its voters rejected a deal in a referendum, but no new proposals were tabled.
-The European Parliament in Strasbourg is now debating Greece.
-European Council President Donald Tusk told MEPs there were only "four days left" to reach agreement.
-Greek PM Alexis Tsipras is also addressing the parliament. He was greeted by boos and cheers as he entered the chamber.</br></br>
-On the referendum, he said the Greek people "stood up and were counted - we have to listen to what they said."
-But he said detailed proposals were being drawn up to bring about agreement with Greece's partners on resolving the debt crisis.
-On Sunday, a meeting of all 28 members of the EU will be held - a day after the new Greek proposals are expected to be discussed by the eurozone finance ministers.</br></br>
-In Brussels, Greece has been given an ultimatum: either there will be a deal or Greece and its banks face the prospect of going bust on Monday, the BBC's Chris Morris reports.
-EU Economy Commissioner Pierre Moscovici told the BBC's Today programme that Europe wanted to stop Greece falling out of the euro.
-"The Commission does not want a Grexit. Grexit would be a terrible failure and we are fighting to avoid it."
-But, first, he said proposals must come from the Greek side.
-"They know what they have to do, they know what we expect".
-Lavish lifestyles on hold in Athens 'Yes' neighbourhood
-Peston: A shockingly bleak assessment
-Speaking at a news conference late on Tuesday, Mr Tusk said a Greek bankruptcy and the collapse of the Greek banking system would affect the whole of Europe, and that anyone who thought otherwise was naive.
-He said this was now the "most critical moment in the history of the eurozone".</strong>
-		</div>
-    </div>
-
-
-    <div class="page-header">
-		    <h3>Twitter</h3>
-		  </div>
-    <div style = "overflow: auto; height: 350px; font-size: 18px; border: 1px #e4e4e4 solid;
-  padding: 20px;
-  border-radius: 4px;
-  box-shadow: 0 0 6px #ccc;
-  background-color: #fff;">
-
-        {% for tweet in tweets %}
-		<div class="alert alert-info">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-		  <strong>{{ tweet.text }}</strong>
-		</div>
-        {% endfor %}
-
-    </div>
-
-    <div class="page-header">
-		    <h3>Youtube</h3>
-		  </div>
-
-    <div id="myCarousel" class="carousel slide" style = "border: 1px #e4e4e4 solid;
-  padding: 20px;
-  border-radius: 4px;
-  box-shadow: 0 0 6px #ccc;
-  background-color: #fff;">
-  <!-- Indicators -->
-  <!--
-  <ol class="carousel-indicators">
-    <li class="item1 active"></li>
-    <li class = "item2"></li>
-    <li class = "item3"></li>
-    <li class = "item4"></li>
-    <li class = "item5"></li>
-  -->
-
-  </ol>
-
-  <!-- Wrapper for slides -->
-  <div class="carousel-inner" role="listbox">
-    <div class="item active">
-      <div>
-          <div align = 'center' class="embed-responsive embed-responsive-16by9">
-          <div id="player1"></div>
-		  <!-- <iframe id = "vid1" class="embed-responsive-item" width="560" height="315" src="https://www.youtube.com/embed/Qj-Kq2vFWHI?autoplay=1" frameborder="0" allowfullscreen></iframe> -->
-          </div>
-		</div>
-    </div>
-
-
-    <div class="item">
-       <div>
-           <div align = 'center' class="embed-responsive embed-responsive-16by9">
-           <div id="player2"></div>
-		  <!-- <iframe  class="embed-responsive-item" width="560" height="315" src="https://www.youtube.com/embed/W6mM1kKkaYo?autoplay=1" frameborder="0" allowfullscreen></iframe> -->
-           </div>
-		</div>
-    </div>
-
-  <!-- Left and right controls -->
-  <a class="left carousel-control" href="#myCarousel" role="button">
-    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="right carousel-control" href="#myCarousel" role="button">
-    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
-
-</div>
-
-
-   <script>
+    <script>
 
         // 2. This code loads the IFrame Player API code asynchronously.
-      var tag = document.createElement('script');
+        var tag = document.createElement('script');
 
-      tag.src = "https://www.youtube.com/iframe_api";
-      var firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-      // 3. This function creates an <iframe> (and YouTube player)
-      //    after the API code downloads.
-      var player1;
-      var player2;
-      function onYouTubeIframeAPIReady() {
-        player1 = new YT.Player('player1', {
-          height: '390',
-          width: '640',
-          videoId: '{{ videos1.0 }}',
-          events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-          }
-        });
-        player2 = new YT.Player('player2', {
-          height: '390',
-          width: '640',
-          videoId: '{{ videos2.0 }}',
-          events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-          }
-        });
+        // 3. This function creates an <iframe> (and YouTube player)
+        //    after the API code downloads.
+        var player1;
+        var player2;
+        function onYouTubeIframeAPIReady() {
+            player1 = new YT.Player('player1', {
+                height: '390',
+                width: '640',
+                videoId: '{{ video1 }}',
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+            player2 = new YT.Player('player2', {
+                height: '390',
+                width: '640',
+                videoId: '{{ video2 }}',
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
 
-        player3 = new YT.Player('player3', {
-          height: '390',
-          width: '640',
-          videoId: 'rFliUZ6g1Eo',
-          events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-          }
-        });
-        player4 = new YT.Player('player4', {
-          height: '390',
-          width: '640',
-          videoId: 'ngZKOzxcHXc',
-          events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-          }
-        });
-        player5 = new YT.Player('player5', {
-          height: '390',
-          width: '640',
-          videoId: 'jf7ddcnrUj8',
-          events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-          }
-        });
+            player3 = new YT.Player('player3', {
+                height: '390',
+                width: '640',
+                videoId: '{{ video3 }}',
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+            player4 = new YT.Player('player4', {
+                height: '390',
+                width: '640',
+                videoId: '{{ video4 }}',
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
 
-
-      }
+            player5 = new YT.Player('player5', {
+                height: '390',
+                width: '640',
+                videoId: 'jf7ddcnrUj8',
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
 
 
-      // 4. The API will call this function when the video player is ready.
-      function onPlayerReady(event) {
-        event.target.playVideo();
-          player1.unMute();
-          player2.mute();
-          player3.mute();
-          player4.mute();
-          player5.mute();
-      }
-
-      // 5. The API calls this function when the player's state changes.
-      //    The function indicates that when playing a video (state=1),
-      //    the player should play for six seconds and then stop.
-
-      var done = false;
-      function onPlayerStateChange(event) {
-        if (event.data == YT.PlayerState.PLAYING && !done) {
-          //setTimeout(stopVideo, 10000);
-          done = true;
         }
-      }
 
-       function muteVolume(){
+
+        // 4. The API will call this function when the video player is ready.
+        function onPlayerReady(event) {
+            event.target.playVideo();
+            player1.unMute();
+            player2.mute();
+            player3.mute();
+            player4.mute();
+            player5.mute();
+        }
+
+        // 5. The API calls this function when the player's state changes.
+        //    The function indicates that when playing a video (state=1),
+        //    the player should play for six seconds and then stop.
+
+        var done = false;
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.PLAYING && !done) {
+                //setTimeout(stopVideo, 10000);
+                done = true;
+            }
+        }
+
+        function muteVolume() {
             player.mute();
         }
 
-        function unmuteVolume(){
+        function unmuteVolume() {
             player.Unmute();
         }
 
-      function stopVideo() {
-        player.stopVideo();
-      }
-
-$(document).ready(function(){
-
-    // Activate Carousel
-    $("#myCarousel").carousel();
-
-    // Enable Carousel Indicators
-    $(".item1").click(function(){
-        $("#myCarousel").carousel(0);
-    });
-    $(".item2").click(function(){
-        $("#myCarousel").carousel(1);
-
-    });
-    /*
-    $(".item3").click(function(){
-        $("#myCarousel").carousel(2);
-    });
-    $(".item4").click(function(){
-        $("#myCarousel").carousel(3);
-    });
-    $(".item5").click(function(){
-        $("#myCarousel").carousel(4);
-    });
-    */
-
-
-
-      $('.carousel').on('slid.bs.carousel', function () {
-
-  // This variable contains all kinds of data and methods related to the carousel
-  var carouselData = $(this).data('bs.carousel');
-  // EDIT: Doesn't work in Boostrap >= 3.2
-  //var currentIndex = carouselData.getActiveIndex();
-  var currentIndex = carouselData.getItemIndex(carouselData.$element.find('.item.active'));
-  var total = carouselData.$items.length;
-
-        if(currentIndex == 0){
-            if(player1.isMuted()){
-                player1.unMute();
-                player2.mute();
-                player3.mute();
-                player4.mute();
-                player5.mute();
-            }else{
-                player2.mute();
-                player3.mute();
-                player4.mute();
-                player5.mute();
-            }
-        }else if(currentIndex == 1){
-            if(player2.isMuted()){
-                player2.unMute();
-                player1.mute();
-                player3.mute();
-                player4.mute();
-                player5.mute();
-            }else{
-                player1.mute();
-                player3.mute();
-                player4.mute();
-                player5.mute();
-            }
-        }else if(currentIndex == 2){
-            if(player3.isMuted()){
-                player3.unMute();
-                player1.mute();
-                player2.mute();
-                player4.mute();
-                player5.mute();
-            }else{
-                player1.mute();
-                player2.mute();
-                player4.mute();
-                player5.mute();
-            }
-        }else if(currentIndex == 3){
-            if(player4.isMuted()){
-                player4.unMute();
-                player1.mute();
-                player2.mute();
-                player3.mute();
-                player5.mute();
-            }else{
-                player1.mute();
-                player2.mute();
-                player3.mute();
-                player5.mute();
-            }
-        }else if(currentIndex == 4) {
-            if (player5.isMuted()) {
-                player5.unMute();
-                player1.mute();
-                player2.mute();
-                player3.mute();
-                player4.mute();
-            } else {
-                player1.mute();
-                player2.mute();
-                player3.mute();
-                player4.mute();
-            }
-        }else{
-
+        function stopVideo() {
+            player.stopVideo();
         }
 
-    });
+        $(document).ready(function () {
+
+            // Activate Carousel
+            $("#myCarousel").carousel();
+
+            // Enable Carousel Indicators
+            $(".item1").click(function () {
+                $("#myCarousel").carousel(0);
+            });
+            $(".item2").click(function () {
+                $("#myCarousel").carousel(1);
+
+            });
+            $(".item3").click(function () {
+                $("#myCarousel").carousel(2);
+            });
+            $(".item4").click(function () {
+                $("#myCarousel").carousel(3);
+            });
+            /*
+             $(".item5").click(function(){
+             $("#myCarousel").carousel(4);
+             });
+             */
 
 
-    // Enable Carousel Controls
-    $(".left").click(function(){
-        $("#myCarousel").carousel("prev");
-    });
-    $(".right").click(function(){
-        $("#myCarousel").carousel("next");
-    });
+            $('.carousel').on('slid.bs.carousel', function () {
+
+                // This variable contains all kinds of data and methods related to the carousel
+                var carouselData = $(this).data('bs.carousel');
+                // EDIT: Doesn't work in Boostrap >= 3.2
+                //var currentIndex = carouselData.getActiveIndex();
+                var currentIndex = carouselData.getItemIndex(carouselData.$element.find('.item.active'));
+                var total = carouselData.$items.length;
+
+                if (currentIndex == 0) {
+                    if (player1.isMuted()) {
+                        player1.unMute();
+                        player2.mute();
+                        player3.mute();
+                        player4.mute();
+                        player5.mute();
+                    } else {
+                        player2.mute();
+                        player3.mute();
+                        player4.mute();
+                        player5.mute();
+                    }
+                } else if (currentIndex == 1) {
+                    if (player2.isMuted()) {
+                        player2.unMute();
+                        player1.mute();
+                        player3.mute();
+                        player4.mute();
+                        player5.mute();
+                    } else {
+                        player1.mute();
+                        player3.mute();
+                        player4.mute();
+                        player5.mute();
+                    }
+                } else if (currentIndex == 2) {
+                    if (player3.isMuted()) {
+                        player3.unMute();
+                        player1.mute();
+                        player2.mute();
+                        player4.mute();
+                        player5.mute();
+                    } else {
+                        player1.mute();
+                        player2.mute();
+                        player4.mute();
+                        player5.mute();
+                    }
+                } else if (currentIndex == 3) {
+                    if (player4.isMuted()) {
+                        player4.unMute();
+                        player1.mute();
+                        player2.mute();
+                        player3.mute();
+                        player5.mute();
+                    } else {
+                        player1.mute();
+                        player2.mute();
+                        player3.mute();
+                        player5.mute();
+                    }
+                } else if (currentIndex == 4) {
+                    if (player5.isMuted()) {
+                        player5.unMute();
+                        player1.mute();
+                        player2.mute();
+                        player3.mute();
+                        player4.mute();
+                    } else {
+                        player1.mute();
+                        player2.mute();
+                        player3.mute();
+                        player4.mute();
+                    }
+                } else {
+
+                }
+
+            });
 
 
-    function muteVolumes(){
+            // Enable Carousel Controls
+            $(".left").click(function () {
+                $("#myCarousel").carousel("prev");
+            });
+            $(".right").click(function () {
+                $("#myCarousel").carousel("next");
+            });
 
-    // Listen to the 'slid carousel' event
-    // to trigger our code after each slide change
-    $('.carousel').on('slid.bs.carousel', function () {
 
-  // This variable contains all kinds of data and methods related to the carousel
-  var carouselData = $(this).data('bs.carousel');
-  // EDIT: Doesn't work in Boostrap >= 3.2
-  //var currentIndex = carouselData.getActiveIndex();
-  var currentIndex = carouselData.getItemIndex(carouselData.$element.find('.item.active'));
-  var total = carouselData.$items.length;
+            function muteVolumes() {
 
-        if(currentIndex == 0){
-            if(player1.isMuted()){
-                player1.unMute();
-                player2.mute();
-            }else{
-                player2.mute();
+                // Listen to the 'slid carousel' event
+                // to trigger our code after each slide change
+                $('.carousel').on('slid.bs.carousel', function () {
+
+                    // This variable contains all kinds of data and methods related to the carousel
+                    var carouselData = $(this).data('bs.carousel');
+                    // EDIT: Doesn't work in Boostrap >= 3.2
+                    //var currentIndex = carouselData.getActiveIndex();
+                    var currentIndex = carouselData.getItemIndex(carouselData.$element.find('.item.active'));
+                    var total = carouselData.$items.length;
+
+                    if (currentIndex == 0) {
+                        if (player1.isMuted()) {
+                            player1.unMute();
+                            player2.mute();
+                        } else {
+                            player2.mute();
+                        }
+                    } else if (currentIndex == 1) {
+                        if (player2.isMuted()) {
+                            player2.unMute();
+                            player1.mute();
+                        } else {
+                            player1.mute();
+                        }
+                    } else {
+
+                    }
+
+                });
             }
-        }else if(currentIndex == 1){
-            if(player2.isMuted()){
-                player2.unMute();
-                player1.mute();
-            }else{
-                player1.mute();
-            }
-        }else{
 
-        }
+        });
 
-    });
-    }
+    </script>
 
-});
+</head>
 
-</script>
+<body>
+
+<div class="brand">Purple News</div>
+<div class="address-bar">News goes Social !</div>
+
+<!-- Navigation -->
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
+            <a class="navbar-brand" href="index.html">Purple News</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="/news/">Home</a>
+                </li>
+                <li>
+                    <a href="/news/about">About</a>
+                </li>
+                <li>
+                    <a href="/news/contact">Contact</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+<div class="container">
+
+    <div class="row">
+        <div class="box">
+            <div class="col-lg-12">
+                <hr>
+                <h2 class="intro-text text-center">News
+                    <strong>Summary</strong>
+                </h2>
+                <hr>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="box">
+
+            <!--News title summary goes here !-->
+            <p align="center">{{ description }}</p>
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="box">
+
+            <div class="col-lg-12">
+                <hr>
+                <h2 class="intro-text text-center">
+                    <strong>Tweets</strong>
+                </h2>
+                <hr>
+            </div>
+            <!--Tweets videos goes here !-->
+
+            <div class="box-tech">
+                {% for tweet in tweets %}
+                    <div class="box">
+                        <div align='center'>
+                            {{ tweet.text }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="box">
+            <div class="col-lg-12">
+                <hr>
+                <h2 class="intro-text text-center">
+                    <strong>Videos</strong>
+                </h2>
+                <hr>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="box">
+
+            <!--Youtube videos goes here !-->
+
+            <div id="myCarousel" class="carousel slide" style="border: 1px #e4e4e4 solid;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 0 6px #ccc;
+  background-color: #fff;">
+                <!-- Indicators -->
+                <!--
+                <ol class="carousel-indicators">
+                  <li class="item1 active"></li>
+                  <li class = "item2"></li>
+                  <li class = "item3"></li>
+                  <li class = "item4"></li>
+                  <li class = "item5"></li>
+                -->
+
+                </ol>
+
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox">
+                    <div class="item active">
+                        <div>
+                            <div align='center' class="embed-responsive embed-responsive-16by9">
+                                <div id="player1"></div>
+                                <!-- <iframe id = "vid1" class="embed-responsive-item" width="560" height="315" src="https://www.youtube.com/embed/Qj-Kq2vFWHI?autoplay=1" frameborder="0" allowfullscreen></iframe> -->
+                            </div>
+                        </div>
+                    </div>
 
 
-</div>
+                    <div class="item">
+                        <div>
+                            <div align='center' class="embed-responsive embed-responsive-16by9">
+                                <div id="player2"></div>
+                                <!-- <iframe  class="embed-responsive-item" width="560" height="315" src="https://www.youtube.com/embed/W6mM1kKkaYo?autoplay=1" frameborder="0" allowfullscreen></iframe> -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="item">
+                        <div>
+                            <div align='center' class="embed-responsive embed-responsive-16by9">
+                                <div id="player3"></div>
+                                <!-- <iframe  class="embed-responsive-item" width="560" height="315" src="https://www.youtube.com/embed/W6mM1kKkaYo?autoplay=1" frameborder="0" allowfullscreen></iframe> -->
+                            </div>
+                        </div>
+                    </div>
 
 
+                    <div class="item">
+                        <div>
+                            <div align='center' class="embed-responsive embed-responsive-16by9">
+                                <div id="player4"></div>
+                                <!-- <iframe  class="embed-responsive-item" width="560" height="315" src="https://www.youtube.com/embed/W6mM1kKkaYo?autoplay=1" frameborder="0" allowfullscreen></iframe> -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Left and right controls -->
+                    <a class="left carousel-control" href="#myCarousel" role="button">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="right carousel-control" href="#myCarousel" role="button">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container -->
+
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <p>Copyright &copy; NLPracticum - Purple Team 2015</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- jQuery -->
+        <script src="{% static 'news/js/jquery.js' %}"></script>
+
+        <!-- Bootstrap Core JavaScript -->
+        <script src="{% static 'news/js/bootstrap.min.js' %}"></script>
 </body>
+
 </html>

@@ -21,5 +21,6 @@ urlpatterns = [
     url(r'^polls/', include('polls.urls', namespace="polls")), # namespace is used if you have other apps that use the same url name as this one etc. e.g. detail
     url(r'^admin/', include(admin.site.urls)),
     url(r'^news/', include('news.urls', namespace="news")),
+    url(r'$^', include('news.urls', namespace="news")),
 
 ]

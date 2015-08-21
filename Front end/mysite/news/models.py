@@ -15,6 +15,7 @@ class Article(models.Model):
     summary = models.CharField(max_length=800)
     country = models.CharField(max_length=20)
     category = models.CharField(max_length=15)
+    keywords = models.CharField(max_length=200)
 
     def __str__(self):
         return self.title

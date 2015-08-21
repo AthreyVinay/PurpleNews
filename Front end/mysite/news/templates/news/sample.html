@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Purple News</title>
+
+    {% load staticfiles %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'news/style.css' %}"/>
+
+    <!-- Bootstrap Core CSS -->
+    <link type="text/css" href="{% static 'news/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link type="text/css" href="{% static 'news/css/business-casual.css' %}" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'news/sweetalert-master/dist/sweetalert.css' %}">
+
+    <!-- Fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"
+          rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic"
+          rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'news/style.css' %}"/>
+    <script src="{% static 'news/sweetalert-master/dist/sweetalert.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'news/sweetalert-master/dist/sweetalert.css' %}">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <script>
+
+        // 2. This code loads the IFrame Player API code asynchronously.
+        var tag = document.createElement('script');
+
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        // 3. This function creates an <iframe> (and YouTube player)
+        //    after the API code downloads.
+        var player1;
+        var player2;
+        function onYouTubeIframeAPIReady() {
+            player1 = new YT.Player('player1', {
+                height: '390',
+                width: '640',
+                videoId: '{{ video1 }}',
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+            player2 = new YT.Player('player2', {
+                height: '390',
+                width: '640',
+                videoId: '{{ video2 }}',
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+
+            player3 = new YT.Player('player3', {
+                height: '390',
+                width: '640',
+                videoId: '{{ video3 }}',
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+            player4 = new YT.Player('player4', {
+                height: '390',
+                width: '640',
+                videoId: '{{ video4 }}',
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+
+            player5 = new YT.Player('player5', {
+                height: '390',
+                width: '640',
+                videoId: 'jf7ddcnrUj8',
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+
+
+        }
+
+
+        // 4. The API will call this function when the video player is ready.
+        function onPlayerReady(event) {
+            event.target.playVideo();
+            player1.unMute();
+            player2.mute();
+            player3.mute();
+            player4.mute();
+            player5.mute();
+        }
+
+        // 5. The API calls this function when the player's state changes.
+        //    The function indicates that when playing a video (state=1),
+        //    the player should play for six seconds and then stop.
+
+        var done = false;
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.PLAYING && !done) {
+                //setTimeout(stopVideo, 10000);
+                done = true;
+            }
+        }
+
+        function muteVolume() {
+            player.mute();
+        }
+
+        function unmuteVolume() {
+            player.Unmute();
+        }
+
+        function stopVideo() {
+            player.stopVideo();
+        }
+
+        $(document).ready(function () {
+
+            // Activate Carousel
+            $("#myCarousel").carousel();
+
+            // Enable Carousel Indicators
+            $(".item1").click(function () {
+                $("#myCarousel").carousel(0);
+            });
+            $(".item2").click(function () {
+                $("#myCarousel").carousel(1);
+
+            });
+            $(".item3").click(function () {
+                $("#myCarousel").carousel(2);
+            });
+            $(".item4").click(function () {
+                $("#myCarousel").carousel(3);
+            });
+            /*
+             $(".item5").click(function(){
+             $("#myCarousel").carousel(4);
+             });
+             */
+
+
+            $('.carousel').on('slid.bs.carousel', function () {
+
+                // This variable contains all kinds of data and methods related to the carousel
+                var carouselData = $(this).data('bs.carousel');
+                // EDIT: Doesn't work in Boostrap >= 3.2
+                //var currentIndex = carouselData.getActiveIndex();
+                var currentIndex = carouselData.getItemIndex(carouselData.$element.find('.item.active'));
+                var total = carouselData.$items.length;
+
+                if (currentIndex == 0) {
+                    if (player1.isMuted()) {
+                        player1.unMute();
+                        player2.mute();
+                        player3.mute();
+                        player4.mute();
+                        player5.mute();
+                    } else {
+                        player2.mute();
+                        player3.mute();
+                        player4.mute();
+                        player5.mute();
+                    }
+                } else if (currentIndex == 1) {
+                    if (player2.isMuted()) {
+                        player2.unMute();
+                        player1.mute();
+                        player3.mute();
+                        player4.mute();
+                        player5.mute();
+                    } else {
+                        player1.mute();
+                        player3.mute();
+                        player4.mute();
+                        player5.mute();
+                    }
+                } else if (currentIndex == 2) {
+                    if (player3.isMuted()) {
+                        player3.unMute();
+                        player1.mute();
+                        player2.mute();
+                        player4.mute();
+                        player5.mute();
+                    } else {
+                        player1.mute();
+                        player2.mute();
+                        player4.mute();
+                        player5.mute();
+                    }
+                } else if (currentIndex == 3) {
+                    if (player4.isMuted()) {
+                        player4.unMute();
+                        player1.mute();
+                        player2.mute();
+                        player3.mute();
+                        player5.mute();
+                    } else {
+                        player1.mute();
+                        player2.mute();
+                        player3.mute();
+                        player5.mute();
+                    }
+                } else if (currentIndex == 4) {
+                    if (player5.isMuted()) {
+                        player5.unMute();
+                        player1.mute();
+                        player2.mute();
+                        player3.mute();
+                        player4.mute();
+                    } else {
+                        player1.mute();
+                        player2.mute();
+                        player3.mute();
+                        player4.mute();
+                    }
+                } else {
+
+                }
+
+            });
+
+
+            // Enable Carousel Controls
+            $(".left").click(function () {
+                $("#myCarousel").carousel("prev");
+            });
+            $(".right").click(function () {
+                $("#myCarousel").carousel("next");
+            });
+
+
+            function muteVolumes() {
+
+                // Listen to the 'slid carousel' event
+                // to trigger our code after each slide change
+                $('.carousel').on('slid.bs.carousel', function () {
+
+                    // This variable contains all kinds of data and methods related to the carousel
+                    var carouselData = $(this).data('bs.carousel');
+                    // EDIT: Doesn't work in Boostrap >= 3.2
+                    //var currentIndex = carouselData.getActiveIndex();
+                    var currentIndex = carouselData.getItemIndex(carouselData.$element.find('.item.active'));
+                    var total = carouselData.$items.length;
+
+                    if (currentIndex == 0) {
+                        if (player1.isMuted()) {
+                            player1.unMute();
+                            player2.mute();
+                        } else {
+                            player2.mute();
+                        }
+                    } else if (currentIndex == 1) {
+                        if (player2.isMuted()) {
+                            player2.unMute();
+                            player1.mute();
+                        } else {
+                            player1.mute();
+                        }
+                    } else {
+
+                    }
+
+                });
+            }
+
+        });
+
+    </script>
+
+</head>
+
+<body>
+
+<div class="brand">Purple News</div>
+<div class="address-bar">News goes Social !</div>
+
+<!-- Navigation -->
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
+            <a class="navbar-brand" href="index.html">Purple News</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="index.html">Home</a>
+                </li>
+                <li>
+                    <a href="about.html">About</a>
+                </li>
+                <li>
+                    <a href="contact.html">Contact</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+<div class="container">
+
+    <div class="row">
+        <div class="box">
+            <div class="col-lg-12">
+                <hr>
+                <h2 class="intro-text text-center">News
+                    <strong>Summary</strong>
+                </h2>
+                <hr>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="box">
+
+            <!--News title summary goes here !-->
+            <p align="center">{{ description }}</p>
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="box">
+
+            <div class="col-lg-12">
+                <hr>
+                <h2 class="intro-text text-center">
+                    <strong>Tweets</strong>
+                </h2>
+                <hr>
+            </div>
+            <!--Tweets videos goes here !-->
+
+            {% for tweet in tweets %}
+                <div class="box">
+                    <div align='center'>
+                        {{ tweet.text }}
+                    </div>
+                </div>
+            {% endfor %}
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="box">
+
+            <div class="col-lg-12">
+                <hr>
+                <h2 class="intro-text text-center">
+                    <strong>Videos</strong>
+                </h2>
+                <hr>
+            </div>
+            <!--Youtube videos goes here !-->
+
+            <div id="myCarousel" class="carousel slide" style="border: 1px #e4e4e4 solid;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 0 6px #ccc;
+  background-color: #fff;">
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.container -->
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <p>Copyright &copy; NLPracticum - Purple Team 2015</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="{% static 'news/js/jquery.js' %}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static 'news/js/bootstrap.min.js' %}"></script>
+
+</body>
+
+</html>
+
+
+</html>

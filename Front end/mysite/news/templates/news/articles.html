@@ -1,117 +1,139 @@
 <!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>Articles</title>
-	{% load staticfiles %}
-    <link rel="stylesheet" type="text/css" href="{% static 'news/style.css' %}" />
+<html lang="en">
 
-    <!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-	<!-- jQuery library -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<!-- Latest compiled JavaScript -->
-	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-	<!-- Mobile rendering + touch zooming -->
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
 
-     <style>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-  .test {
-      position: relative;
-      height:500px;
-      overflow: auto;
-  }
+    <title>Purple News</title>
 
- .category{
-      border: 1px #e4e4e4 solid;
-      padding: 20px;
-      border-radius: 4px;
-      box-shadow: 0 0 10px #ccc;
-      background-color: #fff;
+    {% load staticfiles %}
 
- }
+    <link rel="stylesheet" type="text/css" href="{% static 'news/style.css' %}"/>
 
+    <!-- Bootstrap Core CSS -->
+    <link type="text/css" href="{% static 'news/css/bootstrap.min.css' %}" rel="stylesheet">
 
+    <!-- Custom CSS -->
+    <link type="text/css" href="{% static 'news/css/business-casual.css' %}" rel="stylesheet">
 
-  </style>
+    <link rel="stylesheet" type="text/css" href="{% static 'news/sweetalert-master/dist/sweetalert.css' %}">
 
+    <link rel="stylesheet" type="text/css" href="{% static 'news/style.css' %}"/>
+    <script src="{% static 'news/sweetalert-master/dist/sweetalert.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'news/sweetalert-master/dist/sweetalert.css' %}">
+
+    <style>
+
+        .test {
+            position: relative;
+            height: 500px;
+            overflow: auto;
+        }
+
+        .category {
+            border: 1px #e4e4e4 solid;
+            padding: 20px;
+            border-radius: 4px;
+            box-shadow: 0 0 10px #ccc;
+            background-color: #fff;
+
+        }
+
+    </style>
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
     <script>
-        $(document).ready(function(){
+        $(document).ready(function () {
 
-            $("#action-1").click(function(){
+            //  Get business news
+            $("#action-1").click(function () {
                 $.ajax({
                     "type": "POST",
                     "dataType": "json",
                     "url": "/news/articles/",
-                    "data": { "category": "Business", "country": "Ireland"},
-                    "success": function(data){
-                        var arr = Object.keys(data.titles).map(function(k) { return data.titles[k] });
+                    "data": {"category": "Business", "country": "Ireland"},
+                    "success": function (data) {
+                        var arr = Object.keys(data.titles).map(function (k) {
+                            return data.titles[k]
+                        });
                         document.getElementById('article_list').innerHTML = "";
                         document.getElementById('category_heading').innerHTML = "Category: " + data.category;
-                        for (i = 0; i < arr.length; i++){
+                        for (i = 0; i < arr.length; i++) {
                             var article = arr[i];
-                            document.getElementById('article_list').innerHTML += '<input type = "submit" id = "title" value = "'  + article  + '" class = "btn btn-default btn-block btn-lg" style = "padding: 18px 28px; font-size: 22px; line-height: normal; -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px;">'
-
+                            document.getElementById('article_list').innerHTML += '<input type = "submit" id = "title" value = "' + article + '" class = "btn btn-default btn-block btn-lg" style = "padding: 18px 28px; font-size: 22px; line-height: normal; -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px;">'
                         }
                     }
                 });
             });
 
-            $("#action-2").click(function(){
+            //  Get Sports news
+            $("#action-2").click(function () {
                 $.ajax({
                     "type": "POST",
                     "dataType": "json",
                     "url": "/news/articles/",
-                    "data": { "category": "Sports", "country": "Ireland"},
-                    "success": function(data){
-                        var arr = Object.keys(data.titles).map(function(k) { return data.titles[k] });
+                    "data": {"category": "Sports", "country": "Ireland"},
+                    "success": function (data) {
+                        var arr = Object.keys(data.titles).map(function (k) {
+                            return data.titles[k]
+                        });
                         document.getElementById('article_list').innerHTML = "";
                         document.getElementById('category_heading').innerHTML = "Category: " + data.category;
-                        for (i = 0; i < arr.length; i++){
+                        for (i = 0; i < arr.length; i++) {
                             var article = arr[i];
-                            document.getElementById('article_list').innerHTML += '<input type = "submit" id = "title" value = "'  + article  + '" class = "btn btn-default btn-block btn-lg" style = "padding: 18px 28px; font-size: 22px; line-height: normal; -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px;">'
-
+                            document.getElementById('article_list').innerHTML += '<input type = "submit" id = "title" value = "' + article + '" class = "btn btn-default btn-block btn-lg" style = "padding: 18px 28px; font-size: 22px; line-height: normal; -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px;">'
                         }
                     }
                 });
             });
 
-            $("#action-3").click(function(){
+            //  Get Politics news
+            $("#action-3").click(function () {
                 $.ajax({
                     "type": "POST",
                     "dataType": "json",
                     "url": "/news/articles/",
-                    "data": { "category": "Politics"},
-                    "success": function(data){
+                    "data": {"category": "Politics"},
+                    "success": function (data) {
                         //var titles = JSON.parse(data.titles);
-                        var arr = Object.keys(data.titles).map(function(k) { return data.titles[k] });
+                        var arr = Object.keys(data.titles).map(function (k) {
+                            return data.titles[k]
+                        });
                         document.getElementById('article_list').innerHTML = "";
                         document.getElementById('category_heading').innerHTML = "Category: " + data.category;
-                        for (i = 0; i < arr.length; i++){
+                        for (i = 0; i < arr.length; i++) {
                             var article = arr[i];
-                            document.getElementById('article_list').innerHTML += '<input type = "submit" id = "title" value = "'  + article  + '" class = "btn btn-default btn-block btn-lg" style = "padding: 18px 28px; font-size: 22px; line-height: normal; -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px;">'
+                            document.getElementById('article_list').innerHTML += '<input type = "submit" id = "title" value = "' + article + '" class = "btn btn-default btn-block btn-lg" style = "padding: 18px 28px; font-size: 22px; line-height: normal; -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px;">'
 
                         }
                     }
                 });
             });
 
-            $("#action-4").click(function(){
+            //  Get Entertainment news
+            $("#action-4").click(function () {
                 $.ajax({
                     "type": "POST",
                     "dataType": "json",
                     "url": "/news/articles/",
-                    "data": { "category": "Entertainment"},
-                    "success": function(data){
+                    "data": {"category": "Entertainment"},
+                    "success": function (data) {
                         //var titles = JSON.parse(data.titles);
-                        var arr = Object.keys(data.titles).map(function(k) { return data.titles[k] });
+                        var arr = Object.keys(data.titles).map(function (k) {
+                            return data.titles[k]
+                        });
                         document.getElementById('article_list').innerHTML = "";
                         document.getElementById('category_heading').innerHTML = "Category: " + data.category;
-                        for (i = 0; i < arr.length; i++){
+                        for (i = 0; i < arr.length; i++) {
                             var article = arr[i];
-                            document.getElementById('article_list').innerHTML += '<input type = "submit" id = "title" value = "'  + article  + '" class = "btn btn-default btn-block btn-lg" style = "padding: 18px 28px; font-size: 22px; line-height: normal; -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px;">'
+                            document.getElementById('article_list').innerHTML += '<input type = "submit" id = "title" value = "' + article + '" class = "btn btn-default btn-block btn-lg" style = "padding: 18px 28px; font-size: 22px; line-height: normal; -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px;">'
 
                         }
                     }
@@ -119,74 +141,128 @@
             });
         });
 
-    </script>
+        function post_title(title) {
 
+            var params = {article_title: title};
+
+            // The rest of this code assumes you are not using a library.
+            // It can be made less wordy if you use one.
+            var form = document.createElement("form");
+            form.setAttribute("method", "post");
+            form.setAttribute("action", "/news/summary/");
+
+            for (var key in params) {
+                if (params.hasOwnProperty(key)) {
+                    var hiddenField = document.createElement("input");
+                    hiddenField.setAttribute("type", "hidden");
+                    hiddenField.setAttribute("name", key);
+                    hiddenField.setAttribute("value", params[key]);
+                    form.appendChild(hiddenField);
+                }
+            }
+            document.body.appendChild(form);
+            form.submit();
+        }
+
+    </script>
 
 </head>
 
-
 <body>
 
-    <div class = "container" style = "border: 1px #e4e4e4 solid;
-      padding: 20px;
-      border-radius: 4px;
-      box-shadow: 0 0 6px #ccc;
-      background-color: #fff;">
+<div class="brand">Purple News</div>
+<div class="address-bar">News goes Social !</div>
 
-        <nav class="navbar navbar-default">
-          <div class="container">
-            <div class="navbar-header">
-              <a class="navbar-brand" href="/news/" style = "font-size: 20px;">Purple News</a>
-            </div>
-            <div>
-              <ul class="nav navbar-nav">
-                  <li class="active"><a href="/news/articles/" style = "font-size: 18px;">Articles</a></li>
-              </ul>
-            </div>
-          </div>
-        </nav>
-
-        </br>
-
-
-        <div class="jumbotron">
-                  <h2>Articles</h2>
-                  <!-- <p><h3>Country: {#  #}{ country }}</h3></br><h3 id = 'category_heading'>Category: All</h3></p> -->
-
+<!-- Navigation -->
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
+            <a class="navbar-brand" href="index.html">Purple News</a>
         </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="/news/">Home</a>
+                </li>
+                <li>
+                    <a href="/news/about">About</a>
+                </li>
+                <li>
+                    <a href="/news/contact">Contact</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
 
-        <nav class="navbar navbar-default">
+<div class="container">
+
+    <div class="row">
+        <div class="box">
+            <div class="col-lg-12">
+                <hr>
+                <h2 class="intro-text text-center">About
+                    <strong>Purple News</strong>
+                </h2>
+                <hr>
+            </div>
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="box">
+
+            <!-- Scrollspy start-->
+            <nav class="navbar navbar-default">
                 <div class="container-fluid">
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                          <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
                         </button>
-                         <a class="navbar-brand" href="#"><strong>Current category:</strong></a>
+                        <a class="navbar-brand" href="#"><strong>Current category:</strong></a>
                     </div>
                     <div>
                         <div class="collapse navbar-collapse" id="myNavbar">
                             <ul class="nav navbar-nav">
-                            <li><a href="#business" style = "font-size: 16px;">Business</a></li>
-                            <li><a href="#sport" style = "font-size: 16px;">Sports</a></li>
-                            <li><a href="#politics" style = "font-size: 16px;">Politics</a></li>
-                            <li><a href="#lifestyle" style = "font-size: 16px;">Entertainment</a></li>
+                                <li><a href="#business" style="font-size: 16px;">Business</a></li>
+                                <li><a href="#sport" style="font-size: 16px;">Sports</a></li>
+                                <li><a href="#politics" style="font-size: 16px;">Politics</a></li>
+                                <li><a href="#lifestyle" style="font-size: 16px;">Lifestyle</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
-          </nav>
+            </nav>
 
 
+            <div data-spy="scroll" data-target=".navbar" data-offset="12" class="test" style="font-size: 18px;">
 
-            <div data-spy="scroll" data-target=".navbar" data-offset="12" class="test" style = "font-size: 18px;">
-
-                <div class = "category" id = 'business' >
+                <div class="category" id='business'>
                     <div class="container-fluid">
 
                         {% for article in business %}
 
-                            <div class="alert alert-info">
-                            <div align = 'center'><a onclick = "post_title(this)"><strong>{{ article.title }}</strong></a></div>
+                            <div class="box">
+                                <div align='center'>
+                                    <a onclick="post_title('{{ article.title }}')" onmouseover=""
+                                       style="cursor: pointer;">
+                                        <strong>{{ article.title }}</strong>
+                                    </a>
+                                </div>
                             </div>
 
                         {% endfor %}
@@ -196,13 +272,18 @@
 
                 </br>
 
-                <div class = "category" id ="sport">
+                <div class="category" id="sport">
                     <div class="container-fluid">
 
                         {% for article in sport %}
 
-                            <div class="alert alert-danger">
-                            <div align = 'center'><a onclick = "post_title(this)"><strong>{{ article.title }}</strong></a></div>
+                            <div class="box">
+                                <div align='center'>
+                                    <a onclick="post_title('{{ article.title }}')" onmouseover=""
+                                       style="cursor: pointer;">
+                                        <strong>{{ article.title }}</strong>
+                                    </a>
+                                </div>
                             </div>
 
                         {% endfor %}
@@ -212,17 +293,18 @@
 
                 </br>
 
-                <div class = "category" id = 'politics'>
+                <div class="category" id='politics'>
                     <div class="container-fluid">
-
-                            <div class="alert alert-warning">
-                            <div align = 'center'><a onclick = "post_title(this)"><strong>New deadline issued to Greece</strong></a></div>
-                            </div>
 
                         {% for article in politics %}
 
-                            <div class="alert alert-warning">
-                            <div align = 'center'><a onclick = "post_title(this)"><strong>{{ article.title }}</strong></a></div>
+                            <div class="box">
+                                <div align='center'>
+                                    <a onclick="post_title('{{ article.title }}')" onmouseover=""
+                                       style="cursor: pointer;">
+                                        <strong>{{ article.title }}</strong>
+                                    </a>
+                                </div>
                             </div>
 
                         {% endfor %}
@@ -233,13 +315,18 @@
                 </br>
 
 
-                <div class = "category" id ="lifestyle">
+                <div class="category" id="lifestyle">
                     <div class="container-fluid">
 
                         {% for article in lifestyle %}
 
-                            <div class="alert alert-success">
-                            <div align = 'center'><a onclick = "post_title('{{ article.title }}')"><strong>{{ article.title }}</strong></a></div>
+                            <div class="box">
+                                <div align='center'>
+                                    <a onclick="post_title('{{ article.title }}')" onmouseover=""
+                                       style="cursor: pointer;">
+                                        <strong>{{ article.title }}</strong>
+                                    </a>
+                                </div>
                             </div>
 
                         {% endfor %}
@@ -248,57 +335,31 @@
                 </div>
 
 
-            </div> <!-- end scrollspy -->
+            </div>
+            <!-- end scrollspy -->
 
+        </div>
+    </div>
 
+</div>
+<!-- /.container -->
 
-    </div> <!-- end main container -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <p>Copyright &copy; NLPracticum - Purple Team 2015</p>
+            </div>
+        </div>
+    </div>
+</footer>
 
+<!-- jQuery -->
+<script src="{% static 'news/js/jquery.js' %}"></script>
 
-    <script>
-
-
-
-    function post_title(title){
-
-    /*var f = document.createElement("form");
-    f.setAttribute('method',"post");
-    f.setAttribute('action',"/news/summary/");
-
-    var i = document.createElement("input"); //input element, text
-    i.setAttribute('type',"hidden");
-    i.setAttribute('value', title);
-    i.setAttribute('id', 'article_title');
-
-    f.appendChild(i);
-    f.submit();*/
-
-    var params = {article_title: title}
-
-    // The rest of this code assumes you are not using a library.
-    // It can be made less wordy if you use one.
-    var form = document.createElement("form");
-    form.setAttribute("method", "post");
-    form.setAttribute("action", "/news/summary/");
-
-    for(var key in params) {
-        if(params.hasOwnProperty(key)) {
-            var hiddenField = document.createElement("input");
-            hiddenField.setAttribute("type", "hidden");
-            hiddenField.setAttribute("name", key);
-            hiddenField.setAttribute("value", params[key]);
-            form.appendChild(hiddenField);
-
-         }
-    }
-
-    document.body.appendChild(form);
-    form.submit();
-
-    }
-
-
-</script>
+<!-- Bootstrap Core JavaScript -->
+<script src="{% static 'news/js/bootstrap.min.js' %}"></script>
 
 </body>
+
 </html>

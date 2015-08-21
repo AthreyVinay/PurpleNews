@@ -104,7 +104,7 @@ def getGermanArticlese(url_list):
 
         current_article_dict = {
                                     "title": title,
-                                    # "description": summary,
+                                    "description": summary,
                                     "articleUrl": url,
                                     "imageUrl": imageUrl,
                                     "keywords":keywords
@@ -230,3 +230,5 @@ class NPExtractor(object):
 
 
 # print (getGermanArticlese(getGermanNews('business')))
+import sys
+print(sys.getdefaultencoding())

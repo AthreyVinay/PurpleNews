@@ -32,7 +32,7 @@ requestHeaders = {'User-agent': 'Mozilla/5.0'}
     #   The method will return a list with each item having link to thumbnail image and text with artitle headline
 def get_article_list(category_type):
 
-    download_link = '`'
+    download_link = ""
 
     if category_type == "sports":
         download_link = sportsFeedUrl
@@ -43,6 +43,10 @@ def get_article_list(category_type):
     elif category_type == "lifestyle":
         download_link = entertainmentFeedUrl
 
+    #print(download_link)
+
+    article_list = []
+
     try:
 
         http = urllib3.PoolManager()
@@ -52,7 +56,8 @@ def get_article_list(category_type):
         tree = et.ElementTree(et.fromstring(r_data))
         root = tree.iter('item')  #   Get the subtree with key as 'item'
 
-        article_list = []
+        #print(sum(1 for _ in root))
+
         for child in root:    #   Iterate to all nodes with key 'item'
 
             np_extractor = NPExtractor(child.find('description').text)
@@ -65,20 +70,16 @@ def get_article_list(category_type):
                 "keywords": result
             }
 
-            #print(current_article_dict.get('title'))
+            
 
             article_list.append(current_article_dict)
-
-        #print(article_list)
-
-        first_article = article_list[0]
-        #print(first_article)
-        #getIrishTimesArticle(first_article.get('articleUrl'))
 
         return article_list
 
     except Exception as e:
         print(e)
+
+    return article_list
 
 def get_irish_times_article(dLink):
 
@@ -210,6 +211,6 @@ class NPExtractor(object):
                 matches.append(t[0])
         return matches
 
-print(get_article_list("lifestyle"))
+
 
 #get_irish_times_article('http://www.irishtimes.com/news/world/europe/italian-police-seize-1-6-bn-of-assets-in-mafia-bust-1.2277807')
